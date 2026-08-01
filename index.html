@@ -3,10 +3,157 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>DannyVFilms</title>
+  <meta name="theme-color" content="#090820">
+  <meta name="description" content="Projects built and maintained by DannyVFilms.">
+  <title>DannyVFilms — Projects</title>
+  <link rel="icon" href="assets/floppy-icon.png">
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #08071d;
+      --panel: rgba(20, 18, 55, .86);
+      --line: rgba(151, 122, 255, .24);
+      --text: #f8f7ff;
+      --muted: #b8b4d1;
+      --accent: #a96cff;
+      --accent-2: #27d6ff;
+      --shadow: 0 24px 80px rgba(0, 0, 0, .38);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 18% 12%, rgba(79, 46, 190, .22), transparent 32rem),
+        radial-gradient(circle at 85% 75%, rgba(16, 183, 229, .14), transparent 30rem),
+        var(--bg);
+      line-height: 1.6;
+    }
+
+    a { color: inherit; }
+    img { max-width: 100%; display: block; }
+
+    .shell { width: min(1120px, calc(100% - 36px)); margin: 0 auto; }
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 26px 0;
+    }
+
+    .brand {
+      text-decoration: none;
+      font-weight: 900;
+      letter-spacing: -.03em;
+      font-size: 1.08rem;
+    }
+
+    .quiet-link { color: var(--muted); text-decoration: none; font-weight: 700; }
+    .quiet-link:hover { color: var(--text); }
+
+    main { padding: 88px 0 72px; }
+    .eyebrow {
+      margin: 0 0 12px;
+      color: #c7b0ff;
+      font-size: .78rem;
+      font-weight: 900;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      max-width: 760px;
+      font-size: clamp(2.7rem, 8vw, 6rem);
+      line-height: .96;
+      letter-spacing: -.065em;
+    }
+
+    .lede {
+      max-width: 650px;
+      margin: 28px 0 0;
+      color: var(--muted);
+      font-size: clamp(1.04rem, 2vw, 1.25rem);
+    }
+
+    .project {
+      display: flex;
+      align-items: center;
+      gap: clamp(28px, 6vw, 72px);
+      margin-top: 92px;
+      padding: clamp(26px, 5vw, 54px);
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      background: linear-gradient(135deg, rgba(31, 28, 80, .94), rgba(10, 10, 36, .92));
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .project-art { flex: 0 1 430px; }
+    .project-copy { flex: 1 1 430px; }
+    .project-logo { width: min(560px, 100%); margin: 0; }
+    .project h2 { margin: 0 0 14px; font-size: clamp(2rem, 4vw, 3.25rem); letter-spacing: -.045em; }
+    .project p { color: var(--muted); margin: 0; }
+
+    .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 26px; }
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 46px;
+      padding: 0 20px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      text-decoration: none;
+      font-weight: 850;
+      transition: transform .16s ease, border-color .16s ease, background .16s ease;
+    }
+    .button:hover { transform: translateY(-2px); border-color: rgba(198, 178, 255, .58); }
+    .button.primary { background: linear-gradient(110deg, var(--accent), var(--accent-2)); color: #08071d; border: 0; }
+
+    footer { padding: 28px 0 42px; color: #8e89aa; font-size: .92rem; }
+
+    @media (max-width: 760px) {
+      main { padding-top: 58px; }
+      .project { flex-direction: column; align-items: stretch; margin-top: 64px; }
+      .project-art { flex-basis: auto; }
+    }
+  </style>
 </head>
 <body>
-  <h1>DannyVFilms</h1>
-  <p>Projects, videos, and questionable software decisions.</p>
+  <div class="shell">
+    <header>
+      <a class="brand" href="./">DannyVFilms</a>
+      <a class="quiet-link" href="https://github.com/dannyvfilms">GitHub ↗</a>
+    </header>
+
+    <main>
+      <p class="eyebrow">Independent software</p>
+      <h1>Small projects with a lot of personality.</h1>
+      <p class="lede">A home for the tools I build, maintain, and use every day.</p>
+
+      <section class="project" aria-labelledby="floppy-title">
+        <div class="project-art">
+          <img class="project-logo" src="assets/floppy-logo.png" alt="Floppy logo with a smiling floppy disk mascot">
+        </div>
+        <div class="project-copy">
+          <p class="eyebrow">Featured project</p>
+          <h2 id="floppy-title">Everything in one place.</h2>
+          <p>Floppy is a self-hosted media tracker for movies, television, anime, books, games, music, podcasts, and the rest of the things you spend your free time enjoying.</p>
+          <div class="actions">
+            <a class="button primary" href="floppy/">Meet Floppy</a>
+            <a class="button" href="https://github.com/dannyvfilms/Floppy">View repository</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>Built in St. Louis and hosted on GitHub Pages.</footer>
+  </div>
 </body>
 </html>

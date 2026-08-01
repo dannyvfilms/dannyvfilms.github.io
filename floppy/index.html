@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#090820">
+  <meta name="description" content="Floppy is a self-hosted, all-in-one media tracker for movies, TV, anime, books, games, music, podcasts, and more.">
+  <meta property="og:title" content="Floppy — Everything in one place">
+  <meta property="og:description" content="A self-hosted media tracker and personal media diary for everything you watch, read, play, or listen to.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://dannyvfilms.github.io/floppy/">
+  <meta property="og:image" content="https://dannyvfilms.github.io/assets/floppy-banner.webp">
+  <meta name="twitter:card" content="summary_large_image">
+  <title>Floppy — Everything in one place</title>
+  <link rel="icon" href="../assets/floppy-icon.png">
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #07061b;
+      --surface: #121031;
+      --surface-2: #181540;
+      --line: rgba(144, 115, 255, .24);
+      --text: #fbfaff;
+      --muted: #bbb6d4;
+      --purple: #b05cff;
+      --cyan: #24d7ff;
+      --orange: #ff9d20;
+      --shadow: 0 28px 90px rgba(0, 0, 0, .42);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 15% 8%, rgba(71, 42, 183, .28), transparent 31rem),
+        radial-gradient(circle at 88% 35%, rgba(11, 169, 218, .12), transparent 32rem),
+        var(--bg);
+      line-height: 1.65;
+    }
+
+    a { color: inherit; }
+    img { max-width: 100%; display: block; }
+    .shell { width: min(1120px, calc(100% - 36px)); margin: 0 auto; }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 22px 0;
+    }
+
+    .home-link, .nav-link { text-decoration: none; font-weight: 850; }
+    .home-link { display: inline-flex; align-items: center; gap: 10px; }
+    .home-link img { width: 38px; height: 38px; object-fit: contain; }
+    .nav-link { color: var(--muted); }
+    .nav-link:hover { color: var(--text); }
+
+    .hero { padding: 58px 0 72px; text-align: center; }
+    .eyebrow {
+      margin: 0 0 14px;
+      color: #d0b9ff;
+      font-size: .78rem;
+      font-weight: 950;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(3.1rem, 9vw, 7.4rem);
+      line-height: .92;
+      letter-spacing: -.07em;
+    }
+
+    .hero-copy {
+      width: min(760px, 100%);
+      margin: 26px auto 0;
+      color: var(--muted);
+      font-size: clamp(1.05rem, 2vw, 1.28rem);
+    }
+
+    .actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 30px; }
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 0 21px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      text-decoration: none;
+      font-weight: 900;
+      transition: transform .16s ease, border-color .16s ease;
+    }
+    .button:hover { transform: translateY(-2px); border-color: rgba(202, 181, 255, .64); }
+    .button.primary { color: #090820; border: 0; background: linear-gradient(105deg, var(--orange), #ffe240, #71e000, var(--cyan), var(--purple)); }
+
+    .demo-note { margin: 14px 0 0; color: #918bab; font-size: .9rem; }
+    code { padding: .1em .4em; border: 1px solid var(--line); border-radius: 6px; background: rgba(255,255,255,.04); color: #f7d6ff; }
+
+    .hero-art {
+      margin-top: 48px;
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      background: #08071e;
+    }
+    .hero-art img { width: 100%; }
+
+    .section { padding: 82px 0; border-top: 1px solid rgba(151, 122, 255, .15); }
+    .section h2 { margin: 0; font-size: clamp(2rem, 5vw, 3.7rem); letter-spacing: -.05em; line-height: 1; }
+    .section-intro { max-width: 760px; margin: 20px 0 0; color: var(--muted); font-size: 1.08rem; }
+
+    .feature-list { margin-top: 48px; }
+    .feature {
+      display: flex;
+      align-items: flex-start;
+      gap: 24px;
+      padding: 28px 0;
+      border-top: 1px solid rgba(151, 122, 255, .15);
+    }
+    .feature:last-child { border-bottom: 1px solid rgba(151, 122, 255, .15); }
+    .feature-mark {
+      flex: 0 0 auto;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      background: linear-gradient(145deg, rgba(176,92,255,.28), rgba(36,215,255,.14));
+      border: 1px solid var(--line);
+      font-size: 1.3rem;
+    }
+    .feature h3 { margin: 0 0 7px; font-size: 1.3rem; }
+    .feature p { margin: 0; color: var(--muted); }
+
+    .art-break {
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      background: var(--surface);
+    }
+    .art-break img { width: 100%; }
+
+    .integration {
+      padding: clamp(28px, 6vw, 58px);
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      background: linear-gradient(140deg, rgba(27, 24, 69, .96), rgba(10, 9, 34, .96));
+      box-shadow: var(--shadow);
+    }
+    .integration p { max-width: 760px; color: var(--muted); }
+    .text-link { color: #d8c6ff; font-weight: 850; text-underline-offset: 4px; }
+
+    footer {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 34px 0 46px;
+      color: #8f89aa;
+      font-size: .92rem;
+    }
+
+    @media (max-width: 650px) {
+      .hero { padding-top: 36px; }
+      .section { padding: 62px 0; }
+      .feature { gap: 16px; }
+      .feature-mark { width: 42px; height: 42px; border-radius: 12px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header>
+      <a class="home-link" href="../"><img src="../assets/floppy-icon.png" alt="">DannyVFilms</a>
+      <a class="nav-link" href="https://github.com/dannyvfilms/Floppy">GitHub ↗</a>
+    </header>
+
+    <main>
+      <section class="hero">
+        <p class="eyebrow">Self-hosted media tracking</p>
+        <h1>Everything in one place.</h1>
+        <p class="hero-copy">Floppy is an all-in-one media tracker and personal media diary for everything you watch, read, play, or listen to—without handing your history to another subscription service.</p>
+        <div class="actions">
+          <a class="button primary" href="https://yamtrack.dannyvfilms.com">Try the live demo</a>
+          <a class="button" href="https://github.com/dannyvfilms/Floppy">View on GitHub</a>
+        </div>
+        <p class="demo-note">Demo login: <code>demo</code> / <code>demodemo</code></p>
+
+        <div class="hero-art">
+          <img src="../assets/floppy-banner.webp" alt="Floppy mascot beside the colorful Floppy wordmark">
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="why-floppy">
+        <p class="eyebrow">Why Floppy</p>
+        <h2 id="why-floppy">A daily driver, not another import destination.</h2>
+        <p class="section-intro">Floppy brings the jobs of a watchlist, media diary, progress tracker, recap dashboard, and owned-media collection into one self-hosted home.</p>
+
+        <div class="feature-list">
+          <article class="feature">
+            <span class="feature-mark" aria-hidden="true">▶</span>
+            <div><h3>Track the whole shelf</h3><p>Movies, television, anime, manga, books, comics, games, board games, music, and podcasts share one library and one history.</p></div>
+          </article>
+          <article class="feature">
+            <span class="feature-mark" aria-hidden="true">↻</span>
+            <div><h3>Know what comes next</h3><p>Progress views, time-left data, unified history, statistics, public lists, and recommendations make the collection useful every day.</p></div>
+          </article>
+          <article class="feature">
+            <span class="feature-mark" aria-hidden="true">⌂</span>
+            <div><h3>Keep it yours</h3><p>Run it in Docker, keep the database on your own hardware, connect the services you already use, and export your data whenever you need it.</p></div>
+          </article>
+        </div>
+      </section>
+
+      <div class="art-break">
+        <img src="../assets/floppy-wallpaper.webp" alt="Pixel-art desk filled with movies, television, anime, music, books, games, podcasts, and the Floppy mascot">
+      </div>
+
+      <section class="section" aria-labelledby="integration-title">
+        <div class="integration">
+          <p class="eyebrow">Building an integration?</p>
+          <h2 id="integration-title">Floppy has its own API surface.</h2>
+          <p>Floppy started as a Yamtrack fork and has diverged substantially. Integrations intended for Floppy should target this repository, its REST API at <code>/api/v1</code>, and the <code>ghcr.io/dannyvfilms/floppy</code> image.</p>
+          <div class="actions" style="justify-content:flex-start">
+            <a class="button primary" href="https://github.com/dannyvfilms/Floppy/wiki/7.-API-and-MCP-Server">API and MCP guide</a>
+            <a class="button" href="https://github.com/dannyvfilms/Floppy/releases">Latest releases</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <span>Floppy is open source and independently maintained.</span>
+      <span><a class="text-link" href="https://github.com/dannyvfilms/Floppy/wiki">Wiki</a> · <a class="text-link" href="https://github.com/dannyvfilms/Floppy/pkgs/container/floppy">Docker image</a></span>
+    </footer>
+  </div>
+</body>
+</html>
