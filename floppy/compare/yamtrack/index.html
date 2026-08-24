@@ -1,0 +1,779 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#07061b">
+  <meta name="description" content="Floppy vs Yamtrack: see what changed in self-hosted media tracking, from music and podcasts to recommendations, collections, integrations, API, and migration.">
+  <link rel="canonical" href="https://dannyvfilms.github.io/floppy/compare/yamtrack/">
+  <meta property="og:title" content="Floppy vs Yamtrack: What changed?">
+  <meta property="og:description" content="Same roots, different direction: a practical look at how Floppy grew beyond its Yamtrack starting point.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://dannyvfilms.github.io/floppy/compare/yamtrack/">
+  <meta property="og:image" content="https://dannyvfilms.github.io/assets/floppy-banner.webp">
+  <meta name="twitter:card" content="summary_large_image">
+  <title>Floppy vs Yamtrack: What changed?</title>
+  <link rel="icon" href="../../../assets/floppy-icon.png">
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #07061b;
+      --surface: #121031;
+      --surface-2: #181540;
+      --line: rgba(144, 115, 255, .24);
+      --line-soft: rgba(151, 122, 255, .15);
+      --text: #fbfaff;
+      --muted: #bbb6d4;
+      --muted-2: #918bab;
+      --purple: #b05cff;
+      --cyan: #24d7ff;
+      --orange: #ff9d20;
+      --shadow: 0 28px 90px rgba(0, 0, 0, .42);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      overflow-x: hidden;
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 15% 8%, rgba(71, 42, 183, .28), transparent 31rem),
+        radial-gradient(circle at 88% 35%, rgba(11, 169, 218, .12), transparent 32rem),
+        var(--bg);
+      line-height: 1.65;
+    }
+
+    a { color: inherit; }
+    img { max-width: 100%; display: block; }
+    .shell { width: min(1120px, calc(100% - 36px)); margin: 0 auto; }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 22px 0;
+    }
+
+    .home-link, .nav-link { text-decoration: none; font-weight: 850; }
+    .home-link { display: inline-flex; align-items: center; gap: 10px; }
+    .home-link img { width: 38px; height: 38px; object-fit: contain; }
+    .nav-link { color: var(--muted); }
+    .nav-link:hover, .nav-link:focus-visible { color: var(--text); }
+
+    :where(a, summary):focus-visible {
+      outline: 3px solid var(--cyan);
+      outline-offset: 4px;
+      border-radius: 6px;
+    }
+
+    .hero { padding: 74px 0 78px; }
+    .eyebrow {
+      margin: 0 0 14px;
+      color: #d0b9ff;
+      font-size: .78rem;
+      font-weight: 950;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+    }
+
+    h1, h2, h3, p { overflow-wrap: anywhere; }
+    h1 {
+      max-width: 1120px;
+      margin: 0;
+      font-size: clamp(2.8rem, 4.8vw, 4.25rem);
+      line-height: .92;
+      letter-spacing: -.07em;
+    }
+
+    .hero-copy {
+      max-width: 770px;
+      margin: 28px 0 0;
+      color: var(--muted);
+      font-size: clamp(1.05rem, 2vw, 1.28rem);
+    }
+
+    .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 0 21px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      text-decoration: none;
+      font-weight: 900;
+      transition: transform .16s ease, border-color .16s ease;
+    }
+    .button:hover { transform: translateY(-2px); border-color: rgba(202, 181, 255, .64); }
+    .button.primary { color: #090820; border: 0; background: linear-gradient(105deg, var(--orange), #ffe240, #71e000, var(--cyan), var(--purple)); }
+
+    .answer-card {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 18px 22px;
+      align-items: start;
+      margin-top: 54px;
+      padding: clamp(24px, 5vw, 42px);
+      border: 1px solid var(--line);
+      border-radius: 26px;
+      background: linear-gradient(140deg, rgba(27, 24, 69, .96), rgba(10, 9, 34, .96));
+      box-shadow: var(--shadow);
+    }
+    .answer-mark {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 54px;
+      height: 54px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: linear-gradient(145deg, rgba(176,92,255,.3), rgba(36,215,255,.15));
+      color: #f0ddff;
+      font-size: 1.6rem;
+      font-weight: 900;
+    }
+    .answer-card h2 { margin: 0 0 8px; font-size: clamp(1.45rem, 3vw, 2rem); letter-spacing: -.035em; }
+    .answer-card p { max-width: 760px; margin: 0; color: var(--muted); }
+
+    .scale-card {
+      margin-top: 18px;
+      padding: clamp(24px, 5vw, 36px);
+      border: 1px solid var(--line-soft);
+      border-radius: 24px;
+      background: rgba(18, 16, 49, .72);
+    }
+    .scale-card .eyebrow { margin-bottom: 20px; }
+    .scale-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+    .scale-stat strong { display: block; color: var(--text); font-size: clamp(1.8rem, 4vw, 3rem); line-height: 1; letter-spacing: -.05em; }
+    .scale-stat span { display: block; margin-top: 8px; color: var(--muted-2); font-size: .92rem; }
+    .scale-copy { max-width: 880px; margin: 24px 0 0; color: var(--muted); }
+
+    .section { padding: 82px 0; border-top: 1px solid var(--line-soft); }
+    .section.feature-section { padding-bottom: 0; }
+    .section h2 { margin: 0; font-size: clamp(2rem, 5vw, 3.7rem); letter-spacing: -.05em; line-height: 1; }
+    .section-intro { max-width: 960px; margin: 20px 0 0; color: var(--muted); font-size: 1.08rem; }
+
+    .story-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-top: 44px;
+    }
+    .story-step {
+      min-height: 220px;
+      padding: 24px;
+      border: 1px solid var(--line-soft);
+      border-radius: 20px;
+      background: rgba(18, 16, 49, .7);
+    }
+    .step-number { color: #d0b9ff; font-size: .8rem; font-weight: 950; letter-spacing: .12em; }
+    .story-step h3 { margin: 34px 0 8px; font-size: 1.22rem; letter-spacing: -.025em; }
+    .story-step p { margin: 0; color: var(--muted); font-size: .96rem; }
+
+    .familiar-grid, .choice-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+      margin-top: 42px;
+    }
+    .familiar-card, .choice-card {
+      padding: clamp(24px, 5vw, 36px);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: rgba(18, 16, 49, .76);
+    }
+    .familiar-card h3, .choice-card h3 { margin: 0 0 10px; font-size: 1.42rem; letter-spacing: -.035em; }
+    .familiar-card p, .choice-card p { margin: 0; color: var(--muted); }
+    .familiar-card ul { margin: 20px 0 0; padding-left: 1.2rem; color: var(--muted); }
+    .familiar-card li + li { margin-top: 7px; }
+
+    .choice-card.floppy {
+      border-color: rgba(36, 215, 255, .4);
+      background: linear-gradient(140deg, rgba(43, 26, 80, .95), rgba(12, 31, 57, .9));
+    }
+    .choice-label { margin: 0 0 12px; color: #d0b9ff; font-size: .78rem; font-weight: 950; letter-spacing: .14em; text-transform: uppercase; }
+
+    .feature-grid { margin-top: 42px; border-top: 1px solid var(--line-soft); }
+    .feature-card {
+      display: grid;
+      grid-template-columns: 54px minmax(0, 1fr);
+      gap: 20px;
+      padding: 34px 0;
+      border-bottom: 1px solid var(--line-soft);
+    }
+    .feature-card .difference-mark {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 48px;
+      height: 48px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: linear-gradient(145deg, rgba(176,92,255,.28), rgba(36,215,255,.14));
+      font-size: 1.25rem;
+    }
+    .feature-card h3 { margin: 0 0 10px; font-size: clamp(1.38rem, 2vw, 1.72rem); letter-spacing: -.035em; }
+    .feature-card p { max-width: 900px; margin: 0; color: var(--muted); }
+    .feature-card p + p { margin-top: 14px; }
+    .feature-context { color: #d0b9ff !important; font-size: .94rem; font-weight: 800; }
+    .feature-card p.feature-callout {
+      max-width: 900px;
+      margin-top: 18px;
+      padding: 14px 16px;
+      border-left: 3px solid var(--cyan);
+      background: rgba(36, 215, 255, .07);
+      color: #ddd8f4 !important;
+    }
+    .integration-groups {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      max-width: 900px;
+      margin-top: 22px;
+    }
+    .integration-group {
+      padding: 16px 18px;
+      border: 1px solid var(--line-soft);
+      border-radius: 16px;
+      background: rgba(18, 16, 49, .58);
+    }
+    .integration-group h4 { margin: 0 0 5px; color: #f0ddff; font-size: 1rem; }
+    .integration-group p { font-size: .96rem; }
+
+    .detail-grid, .quality-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      margin-top: 42px;
+    }
+    .detail-group, .quality-item {
+      padding: clamp(22px, 4vw, 32px);
+      border: 1px solid var(--line-soft);
+      border-radius: 22px;
+      background: rgba(18, 16, 49, .72);
+    }
+    .detail-group h3 { margin: 0 0 14px; font-size: 1.28rem; letter-spacing: -.025em; }
+    .detail-entry + .detail-entry { margin-top: 18px; padding-top: 18px; border-top: 1px solid var(--line-soft); }
+    .detail-entry h4 { margin: 0 0 5px; color: #f0ddff; font-size: 1.02rem; }
+    .detail-entry p { margin: 0; color: var(--muted); font-size: .96rem; }
+
+    .quality-grid { grid-template-columns: repeat(3, 1fr); }
+    .quality-item h3 { margin: 0 0 7px; font-size: 1.08rem; letter-spacing: -.02em; }
+    .quality-item p { margin: 0; color: var(--muted); font-size: .95rem; }
+
+    .faq-list { margin-top: 42px; border-top: 1px solid var(--line-soft); }
+    details { border-bottom: 1px solid var(--line-soft); }
+    summary {
+      cursor: pointer;
+      padding: 23px 44px 23px 0;
+      list-style: none;
+      position: relative;
+      font-size: 1.12rem;
+      font-weight: 850;
+    }
+    summary::-webkit-details-marker { display: none; }
+    summary::after {
+      position: absolute;
+      top: 21px;
+      right: 4px;
+      content: "+";
+      color: #d0b9ff;
+      font-size: 1.4rem;
+      font-weight: 500;
+    }
+    details[open] summary::after { content: "−"; }
+    .faq-answer { max-width: 780px; padding: 0 40px 24px 0; color: var(--muted); }
+    .faq-answer p { margin: 0; }
+    .faq-answer p + p { margin-top: 12px; }
+    code {
+      padding: .1em .4em;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: rgba(255,255,255,.04);
+      color: #f7d6ff;
+      overflow-wrap: anywhere;
+    }
+    .text-link { color: #d8c6ff; font-weight: 850; text-underline-offset: 4px; }
+
+    .closing {
+      padding: clamp(28px, 6vw, 58px);
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      background: linear-gradient(140deg, rgba(27, 24, 69, .96), rgba(10, 9, 34, .96));
+      box-shadow: var(--shadow);
+    }
+    .closing h2 { max-width: 680px; }
+    .closing p { max-width: 760px; color: var(--muted); }
+
+    footer {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 34px 0 46px;
+      color: #8f89aa;
+      font-size: .92rem;
+    }
+
+    @media (max-width: 900px) {
+      .story-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 650px) {
+      .hero { padding-top: 48px; }
+      .section { padding: 62px 0; }
+      .answer-card { grid-template-columns: 1fr; }
+      .scale-stats, .story-grid, .familiar-grid, .choice-grid, .detail-grid, .quality-grid, .integration-groups { grid-template-columns: 1fr; }
+      .story-step { min-height: auto; }
+      .feature-card { grid-template-columns: 44px minmax(0, 1fr); gap: 14px; }
+      .feature-card .difference-mark { width: 42px; height: 42px; border-radius: 12px; }
+      footer { padding-bottom: 34px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header>
+      <a class="home-link" href="../../"><img src="../../../assets/floppy-icon.png" alt="">Back to Floppy</a>
+      <a class="nav-link" href="https://github.com/dannyvfilms/Floppy">GitHub ↗</a>
+    </header>
+
+    <main>
+      <section class="hero">
+        <p class="eyebrow">Floppy vs Yamtrack</p>
+        <h1>Floppy vs Yamtrack: What's Different?</h1>
+        <p class="hero-copy">Floppy began as a Yamtrack fork. Since then, the projects have diverged by more than 1,900 commits, 1,400 changed files, and 400,000 added lines of source code. Line count is not a reason to switch software. This page explains what that development means if you already use Yamtrack.</p>
+        <div class="actions">
+          <a class="button primary" href="../../">Back to Floppy</a>
+          <a class="button" href="https://github.com/dannyvfilms/Floppy">View the repository</a>
+        </div>
+
+        <div class="answer-card">
+          <span class="answer-mark" aria-hidden="true">→</span>
+          <div>
+            <h2>Same roots, different direction.</h2>
+            <p>Floppy retains Yamtrack's core idea: self-host your media history and keep control of your data. It adds more ways to browse, organize, and return to everything you watch, read, play, or listen to.</p>
+          </div>
+        </div>
+
+        <div class="scale-card">
+          <p class="eyebrow">Where did the divergence go?</p>
+          <div class="scale-stats">
+            <div class="scale-stat"><strong>1,963</strong><span>commits since the fork point</span></div>
+            <div class="scale-stat"><strong>1,455</strong><span>changed files</span></div>
+            <div class="scale-stat"><strong>413,608</strong><span>added lines of source</span></div>
+          </div>
+          <p class="scale-copy">Those numbers are context, not a reason to switch by themselves. They represent new media types, new ways to use your history, a much larger integration surface, deeper shared workflows, and a lot of work that makes a long-running self-hosted library safer to trust.</p>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="story-title">
+        <p class="eyebrow">How it got here</p>
+        <h2 id="story-title">The name changed because the scope did.</h2>
+        <p class="section-intro">Floppy did not begin as a plan to replace every other media app. It started with a familiar foundation and a growing list of small improvements. Eventually, the improvements became a direction of their own.</p>
+
+        <div class="story-grid">
+          <article class="story-step">
+            <span class="step-number">01 / START</span>
+            <h3>Small fixes</h3>
+            <p>The early work was quality-of-life polish: the kinds of changes that make a tracker easier to use every day.</p>
+          </article>
+          <article class="story-step">
+            <span class="step-number">02 / KEEP</span>
+            <h3>Shared roots</h3>
+            <p>Self-hosting, core tracking, imports, and a personal media history remained the center of the experience.</p>
+          </article>
+          <article class="story-step">
+            <span class="step-number">03 / GROW</span>
+            <h3>Bigger scope</h3>
+            <p>Music, podcasts, progress, statistics, lists, collections, recommendations, and integrations moved from ideas into the product.</p>
+          </article>
+          <article class="story-step">
+            <span class="step-number">04 / RENAME</span>
+            <h3>A new name</h3>
+            <p>Once the project had its own priorities, calling it only a Yamtrack fork made the result harder to explain than Floppy did.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="familiar-title">
+        <p class="eyebrow">What both still share</p>
+        <h2 id="familiar-title">You are not starting over.</h2>
+        <p class="section-intro">If you know Yamtrack, the basic mental model still makes sense. Floppy keeps the foundation and spends its energy making that foundation useful across more of your media life.</p>
+
+        <div class="familiar-grid">
+          <article class="familiar-card">
+            <h3>The same kind of home</h3>
+            <p>Floppy is still a self-hosted place for your own history, rather than another subscription service that owns the relationship with your data.</p>
+            <ul>
+              <li>Run it on your own hardware.</li>
+              <li>Track the media you care about.</li>
+              <li>Export your data when you need to.</li>
+            </ul>
+          </article>
+          <article class="familiar-card">
+            <h3>The same starting point</h3>
+            <p>Movies, TV, anime, books, games, and board games are still part of the shared foundation. The difference is how much more the surrounding experience now does with them.</p>
+            <ul>
+              <li>One account and one library.</li>
+              <li>Imports remain part of the workflow.</li>
+              <li>Your history stays portable.</li>
+              <li>Board games are shared, not a differentiator.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="section feature-section" aria-labelledby="major-title">
+        <p class="eyebrow">What changes the experience</p>
+        <h2 id="major-title">What do you actually gain by trying Floppy?</h2>
+        <p class="section-intro">The biggest differences are not a list of extra buttons. They are new ways to use the history you already keep in Yamtrack. Each section below starts with the familiar workflow, then shows what Floppy adds and why it matters.</p>
+
+        <div class="feature-grid">
+          <article class="feature-card">
+            <span class="difference-mark" aria-hidden="true">♫</span>
+            <div>
+              <h3>Track music and podcasts in one self-hosted media library</h3>
+              <p class="feature-context">Yamtrack gives you a place to track the media you already use it for. Floppy adds two full media domains rather than attaching a few listening events to a generic item.</p>
+              <p>Music has artist, album, and track pages, discography sync, MusicBrainz metadata, cover art, play counts, and listening-time statistics. Podcasts have show and episode pages, episode-level tracking, mark-all-played behavior, and native history and stats. Pocket Casts can keep listening current through ongoing account sync instead of a one-time file import.</p>
+              <p class="feature-callout"><strong>What you notice:</strong> if your movie and TV history lives in Yamtrack while your listening history lives somewhere else, Floppy is designed to bring both into the same library and timeline.</p>
+            </div>
+          </article>
+          <article class="feature-card">
+            <span class="difference-mark" aria-hidden="true">✦</span>
+            <div>
+              <h3>Turn your media history into personalized recommendations</h3>
+              <p class="feature-context">Yamtrack is primarily a place to record and browse your history. Floppy adds a separate Discover system that uses that history to help decide what should be in front of you next.</p>
+              <p>Discover learns affinities from the genres, studios, actors, directors, authors, and tags already connected to your library. Recommendation rows refresh in the background, and hiding or dismissing something becomes persistent feedback. That includes negative signals, so the system can learn what you do not want to see as well as what you enjoy.</p>
+              <p class="feature-callout"><strong>What you notice:</strong> your history stops being only something you look backward through. It starts influencing what Floppy recommends when you are ready for the next movie, show, book, or game.</p>
+            </div>
+          </article>
+          <article class="feature-card">
+            <span class="difference-mark" aria-hidden="true">⌂</span>
+            <div>
+              <h3>Track owned media collections, not only what you consumed</h3>
+              <p class="feature-context">A watch history and an ownership history answer different questions. Floppy gives them separate places to live without splitting your library.</p>
+              <p>You watched <em>Blade Runner</em> years ago. You also own the UHD Blu-ray with HDR, a particular format, and a particular source. Floppy can keep those facts at the copy level, including resolution, format, codec, and bitrate, then connect ownership to detail pages, filters, and smart lists. Plex collection sync can help keep the shelf current.</p>
+              <p class="feature-callout"><strong>What you notice:</strong> the app can answer both “What have I watched?” and “What do I actually own?” That makes it useful as a media collection tracker, not only a consumption diary.</p>
+            </div>
+          </article>
+          <article class="feature-card">
+            <span class="difference-mark" aria-hidden="true">▤</span>
+            <div>
+              <h3>Build smart lists that maintain themselves</h3>
+              <p class="feature-context">Lists are part of Yamtrack's shared foundation. Floppy extends that idea so a list can keep doing work after you create it.</p>
+              <p>You can build “everything I own in 4K that I have not watched,” “unfinished books by authors I rate highly,” “PlayStation games in my backlog,” or “movies releasing soon that match a tag.” Rules can use collection status, release state, platform, origin, author, and tags. Public profiles, custom slugs, RSS and JSON feeds, and list recommendations add ways to share the result.</p>
+              <p class="feature-callout"><strong>What you notice:</strong> your lists become saved questions about your library instead of snapshots you have to rebuild every time your collection changes.</p>
+            </div>
+          </article>
+          <article class="feature-card">
+            <span class="difference-mark" aria-hidden="true">⌘</span>
+            <div>
+              <h3>Use a REST API and MCP server to work with your library</h3>
+              <p class="feature-context">Yamtrack is designed to be used through its web interface. Floppy gives scripts, services, and compatible AI tools a supported door into the same library.</p>
+              <p><code>/api/v1</code> covers tracking, search, statistics, lists, integrations, music, podcasts, and discovery. The MCP server lets compatible tools and agents search, track, and manage a Floppy instance conversationally. You can connect a script, Home Assistant, another service, or an AI assistant without scraping the UI.</p>
+              <p class="feature-callout"><strong>What you notice:</strong> your media history becomes something you can build around, not just something you have to open in a browser.</p>
+            </div>
+          </article>
+          <article class="feature-card">
+            <span class="difference-mark" aria-hidden="true">⇄</span>
+            <div>
+              <h3>Connect Plex, Jellyfin, Stremio, and the rest of your media stack</h3>
+              <p class="feature-context">The difference is not only the number of integrations. It is how many parts of a self-hosted media life Floppy can connect back to one history.</p>
+              <p>Watching, listening, gaming, books, and library automation each have their own useful paths into Floppy. These are not one comma-separated roster. They solve different problems:</p>
+              <div class="integration-groups">
+                <div class="integration-group"><h4>Watching</h4><p>Plex, Jellyfin, Stremio, and Kodi for playback, catalogs, collections, and watch history.</p></div>
+                <div class="integration-group"><h4>Listening</h4><p>Last.fm, ListenBrainz, Audiobookshelf, Pocket Casts, and scrobble webhooks.</p></div>
+                <div class="integration-group"><h4>Gaming</h4><p>PlayStation Network, Xbox, and Grouvee for the games you play and backlog.</p></div>
+                <div class="integration-group"><h4>Library automation</h4><p>Radarr, Sonarr, and Seerr for scheduled syncs, webhooks, and automatic additions.</p></div>
+                <div class="integration-group"><h4>Books, lists, and data</h4><p>StoryGraph, MDBList, Storyteller, Hardcover, and other import or metadata workflows.</p></div>
+              </div>
+              <p class="feature-callout"><strong>What you notice:</strong> Floppy can sit in the middle of more of the services you already use, instead of asking you to maintain several disconnected histories.</p>
+            </div>
+          </article>
+          <article class="feature-card">
+            <span class="difference-mark" aria-hidden="true">◎</span>
+            <div>
+              <h3>Browse the people, studios, and authors behind your media</h3>
+              <p class="feature-context">A title is often only the beginning of the question. Floppy turns the people and organizations behind it into places you can browse.</p>
+              <p>Actors, directors, authors, and studios have real pages with credits, filmographies, discographies, top works, and related titles. That means you can move from a movie to the director's work, from a book to an author's other books, or from an album to the artist's discography without treating those relationships as hidden metadata.</p>
+              <p class="feature-callout"><strong>What you notice:</strong> the library starts behaving more like a connected map of your interests than a stack of isolated entries.</p>
+            </div>
+          </article>
+          <article class="feature-card">
+            <span class="difference-mark" aria-hidden="true">▶</span>
+            <div>
+              <h3>Run a long-term self-hosted media tracker with more safety rails</h3>
+              <p class="feature-context">Self-hosting is already part of Yamtrack's appeal. Floppy puts more of its divergence into the less glamorous question of what happens after you have years of data and something goes wrong.</p>
+              <p>Floppy adds safer database handling, bounded retries, automatic safety backups around recovery, a recovery page for serious startup problems, and <code>floppy_preflight</code> diagnostics for paths, settings, database state, migrations, and Redis. Logs redact credentials, scheduled exports show their history, and dedicated repair tools cover problems in lists, music, metadata, ratings, anime mappings, calendar data, and duplicate items.</p>
+              <p class="feature-callout"><strong>What you notice:</strong> most of this work is invisible when everything is healthy. That is the point. It makes Floppy easier to trust with a personal library that keeps growing.</p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="medium-title">
+        <p class="eyebrow">The Yamtrack workflows Floppy takes further</p>
+        <h2 id="medium-title">Shared workflows, taken further.</h2>
+        <p class="section-intro">The next layer is less about brand-new product surfaces and more about how much more control and context Floppy gives you inside the workflows both projects share. These are the additions that can make you install the image just to look around.</p>
+
+        <div class="detail-grid">
+          <article class="detail-group">
+            <h3>Finding and fixing metadata</h3>
+            <div class="detail-entry">
+              <h4>Fix a bad match without losing your history.</h4>
+              <p>If an item matched the wrong provider, Floppy gives you tools to remap it or move its provider identity while preserving the history you have already built around it.</p>
+            </div>
+            <div class="detail-entry">
+              <h4>Live time-to-beat data for games.</h4>
+              <p>Floppy can retrieve and refresh HowLongToBeat data, keep it attached to the item, and expose it in sortable and filterable library columns instead of relying only on a one-time CSV import.</p>
+            </div>
+            <div class="detail-entry">
+              <h4>Scan a book instead of searching for it.</h4>
+              <p>Use the camera to read a barcode or ISBN while adding a book. It is a small interaction, but it removes a surprisingly annoying part of building a reading library.</p>
+            </div>
+            <div class="detail-entry">
+              <h4>Choose how titles and providers behave.</h4>
+              <p>Override metadata manually, choose a preferred provider for each media type, and switch between localized and original titles.</p>
+            </div>
+            <div class="detail-entry">
+              <h4>Let missing metadata repair itself over time.</h4>
+              <p>Background backfills can fill in missing fields without blocking the rest of the app or making you repair every entry by hand.</p>
+            </div>
+          </article>
+          <article class="detail-group">
+            <h3>Understanding your history and statistics</h3>
+            <div class="detail-entry">
+              <h4>Compare the periods that matter to you.</h4>
+              <p>Statistics support comparison mode and custom date ranges, so you can look at a month, a year, a media type, or two different periods instead of accepting one fixed recap.</p>
+            </div>
+            <div class="detail-entry">
+              <h4>Reading gets its own useful context.</h4>
+              <p>See pages read, top authors, and reading streaks alongside your broader media history. Books are not forced into a movie-shaped set of numbers.</p>
+            </div>
+            <div class="detail-entry">
+              <h4>Clean up duplicate plays from the history feed.</h4>
+              <p>When repeated or imported play events clutter a timeline, Floppy gives you an inline cleanup path instead of making you leave the feed and hunt through settings.</p>
+            </div>
+            <div class="detail-entry">
+              <h4>Bring in lists, not only account history.</h4>
+              <p>Import Trakt lists and watchlists, plus MDBList collections, so the list workflows you already use can become part of the same library.</p>
+            </div>
+            <div class="detail-entry">
+              <h4>Make list progress easier to understand.</h4>
+              <p>Richer sorting, completion percentages, and media-type breakdowns make a list useful as an active project rather than a pile of saved titles.</p>
+            </div>
+          </article>
+          <article class="detail-group">
+            <h3>Making the interface yours</h3>
+            <div class="detail-entry">
+              <h4>Build the home screen around your habits.</h4>
+              <p>Choose which rows appear and reorder them from library queries, custom lists, smart lists, or recently played but unrated items.</p>
+            </div>
+            <div class="detail-entry">
+              <h4>Choose your own table columns.</h4>
+              <p>Media tables and list tables can be configured independently. Show episodes left, time left, time-to-beat, runtime, time watched, next air date, popularity, or the columns you actually use.</p>
+            </div>
+            <div class="detail-entry">
+              <h4>See what is playing now.</h4>
+              <p>Plex, Jellyfin, and Emby webhooks can power a live now-playing card with current playback context and progress.</p>
+            </div>
+            <div class="detail-entry">
+              <h4>Use a real per-user theme preference.</h4>
+              <p>Choose light, dark, or system themes without making every user share the same display preference.</p>
+            </div>
+            <div class="detail-entry">
+              <h4>Keep account controls close at hand.</h4>
+              <p>Authenticator-based two-factor authentication, recovery codes, and per-user session duration make a multi-user self-hosted instance easier to manage.</p>
+            </div>
+          </article>
+          <article class="detail-group">
+            <h3>Controlling the connections around it</h3>
+            <div class="detail-entry">
+              <h4>See backup and export history inside the app.</h4>
+              <p>Scheduled exports and backups are visible in settings, so important data protection does not disappear into an invisible cron job.</p>
+            </div>
+            <div class="detail-entry">
+              <h4>Scope integrations instead of importing everything.</h4>
+              <p>Choose which Plex libraries trigger webhooks and whether an import is watchlist-only or collection-only.</p>
+            </div>
+            <div class="detail-entry">
+              <h4>Keep integration settings persistent.</h4>
+              <p>Seerr allowed users and defaults can persist as preferences, and per-integration status makes it easier to see what is connected and what needs attention.</p>
+            </div>
+            <div class="detail-entry">
+              <h4>Get more from Jellyfin playback.</h4>
+              <p>Floppy adds a richer Jellyfin layer with dedicated sync and playback-reporting import, rather than stopping at a basic webhook.</p>
+            </div>
+            <div class="detail-entry">
+              <h4>Keep the automation surface supported.</h4>
+              <p>The REST API and MCP server give scripts and services a stable path into the library, so integrations do not have to depend on how the web interface happens to be laid out.</p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="quality-title">
+        <p class="eyebrow">Quality-of-life differences</p>
+        <h2 id="quality-title">Small changes that add up.</h2>
+        <p class="section-intro">And then there are the hundreds of things you should not have to think about. None of these is the reason someone first installs Floppy, but together they show how the fork accumulated polish across imports, providers, dates, playback, proxies, settings, and long-running libraries.</p>
+
+        <div class="quality-grid">
+          <article class="quality-item">
+            <h3>Better spoiler protection</h3>
+            <p>Hide unseen episode titles and images with a clear user preference.</p>
+          </article>
+          <article class="quality-item">
+            <h3>More time preferences</h3>
+            <p>Choose time display, week start, and per-user session age instead of relying only on instance defaults.</p>
+          </article>
+          <article class="quality-item">
+            <h3>More forgiving imports</h3>
+            <p>CSV rows do not need to arrive in a strict TV, season, episode order, and import status is visible in settings.</p>
+          </article>
+          <article class="quality-item">
+            <h3>Import history at a glance</h3>
+            <p>Per-integration status and import history make it easier to tell what ran, what changed, and what needs attention.</p>
+          </article>
+          <article class="quality-item">
+            <h3>Cleaner statistics</h3>
+            <p>Repeated or multi-season entries are deduplicated in top-rated views so the results are easier to trust.</p>
+          </article>
+          <article class="quality-item">
+            <h3>Better date editing</h3>
+            <p>Keep second-level precision, clear dates explicitly, and edit episode dates without leaving the current view.</p>
+          </article>
+          <article class="quality-item">
+            <h3>More resilient providers</h3>
+            <p>Bounded retries and rate-limit fallbacks help temporary provider failures feel temporary.</p>
+          </article>
+          <article class="quality-item">
+            <h3>Clearer setup guidance</h3>
+            <p>Credential validation and guidance for services such as Hardcover make integration setup less mysterious.</p>
+          </article>
+          <article class="quality-item">
+            <h3>Configurable auto-login</h3>
+            <p>Set an auto-login username with legacy-variable fallback when a dedicated kiosk or household setup needs it.</p>
+          </article>
+          <article class="quality-item">
+            <h3>More predictable reverse proxies</h3>
+            <p>OAuth and webhook URLs prefer the configured public origin when Floppy runs behind a proxy.</p>
+          </article>
+          <article class="quality-item">
+            <h3>Better playback controls</h3>
+            <p>Jellyfin Mark Played and Mark Unplayed behavior is clearer and easier to configure.</p>
+          </article>
+          <article class="quality-item">
+            <h3>Safer diagnostics</h3>
+            <p>Logs redact credentials, and purpose-built checks expose common deployment problems before they become mysteries.</p>
+          </article>
+          <article class="quality-item">
+            <h3>More reliable local editing</h3>
+            <p>Local-time prefills, in-place edits, and an explicit no-date option remove small tracking chores.</p>
+          </article>
+          <article class="quality-item">
+            <h3>Less provider-specific friction</h3>
+            <p>More date formats, title variants, and provider errors are handled without making you repair the source data by hand.</p>
+          </article>
+          <article class="quality-item">
+            <h3>More flexible book dates</h3>
+            <p>Publication dates with a full date, month and year, or year only are handled without losing useful information.</p>
+          </article>
+          <article class="quality-item">
+            <h3>Clearer browser edge cases</h3>
+            <p>Status dates behave more predictably in Safari, including an explicit way to clear a date when needed.</p>
+          </article>
+          <article class="quality-item">
+            <h3>Friendlier container guidance</h3>
+            <p>Deployment notes call out common Redis service-name collisions before they turn into a confusing compose failure.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="short-version-title">
+        <p class="eyebrow">After the details</p>
+        <h2 id="short-version-title">Which direction sounds like you?</h2>
+        <p class="section-intro">The comparison is long because the difference is real. The short version is still simple.</p>
+        <div class="choice-grid">
+          <article class="choice-card">
+            <p class="choice-label">Yamtrack</p>
+            <h3>Choose the experience you already know.</h3>
+            <p>Yamtrack is the natural choice if you want its focused tracker experience and prefer to stay close to the project you started with.</p>
+          </article>
+          <article class="choice-card floppy">
+            <p class="choice-label">Floppy</p>
+            <h3>Choose the broader daily driver.</h3>
+            <p>Floppy is for people who want that foundation expanded into one self-hosted home for their whole media life, with more ways to browse, organize, and revisit it.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="faq-title">
+        <p class="eyebrow">Coming from Yamtrack?</p>
+        <h2 id="faq-title">The low-drama version.</h2>
+        <p class="section-intro">Floppy is a different project now, but the move was designed to respect the people and data that got it here.</p>
+
+        <div class="faq-list">
+          <details>
+            <summary>Is Floppy still Yamtrack?</summary>
+            <div class="faq-answer">
+              <p>Floppy started as a fork of Yamtrack, but it has diverged enough to have its own direction, product identity, API surface, and container image. The fork is part of the history; it is not the whole description anymore.</p>
+            </div>
+          </details>
+          <details>
+            <summary>Can I move my Yamtrack data to Floppy?</summary>
+            <div class="faq-answer">
+              <p>Yes. Export a CSV from Yamtrack and import it under Floppy's Settings → Import. The formats are compatible, so your data moves over as-is instead of being trapped in a one-way migration.</p>
+            </div>
+          </details>
+          <details>
+            <summary>Can I point my existing Yamtrack container at the Floppy image?</summary>
+            <div class="faq-answer">
+              <p>You can reuse the existing setup instead of configuring everything from scratch, but this is a one-way change. Switching from <code>fuzzygrim/yamtrack</code> to <code>ghcr.io/dannyvfilms/floppy</code> runs Floppy migrations against the database, and those migrations cannot be undone by switching the image back.</p>
+              <p>The safer path is to keep Yamtrack running, export a CSV, try Floppy alongside it with a separate database, and switch over once you are ready. If you reuse the existing database volume, take a backup first and treat the change as permanent.</p>
+              <p>For new pulls, use <code>ghcr.io/dannyvfilms/floppy</code>.</p>
+            </div>
+          </details>
+          <details>
+            <summary>Does Floppy still include the Yamtrack basics?</summary>
+            <div class="faq-answer">
+              <p>Yes. Core tracking, importing, self-hosting, and the personal media-history workflow are still there. Floppy adds more around them; it does not discard the reason the original foundation was useful.</p>
+            </div>
+          </details>
+          <details>
+            <summary>What if I want to keep my options open?</summary>
+            <div class="faq-answer">
+              <p>Keep regular exports. The shared CSV format means your history is portable, and Floppy's own backups use the same format. Choosing Floppy does not mean giving up ownership of the data you have already collected.</p>
+            </div>
+          </details>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="closing-title">
+        <div class="closing">
+          <p class="eyebrow">Bottom line</p>
+          <h2 id="closing-title">Yamtrack is the starting point. Floppy is the direction that grew from it.</h2>
+          <p>If you want a focused tracker and the experience you already know, Yamtrack remains a reasonable answer. If you want that self-hosted foundation to cover more of your media life and make your history more useful every day, that is what Floppy is for.</p>
+          <div class="actions">
+            <a class="button primary" href="../../">Explore Floppy</a>
+            <a class="button" href="https://github.com/dannyvfilms/Floppy">Read the source</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <span>Floppy is open source and independently maintained.</span>
+      <span><a class="text-link" href="../../">Floppy home</a> · <a class="text-link" href="https://github.com/dannyvfilms/Floppy/wiki">Wiki</a></span>
+    </footer>
+  </div>
+</body>
+</html>
