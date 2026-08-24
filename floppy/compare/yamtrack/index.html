@@ -53,15 +53,35 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 18px;
+      gap: 24px;
       padding: 22px 0;
     }
 
     .home-link, .nav-link { text-decoration: none; font-weight: 850; }
     .home-link { display: inline-flex; align-items: center; gap: 10px; }
-    .home-link img { width: 38px; height: 38px; object-fit: contain; }
+    .home-link img { width: 38px; height: 38px; object-fit: cover; border-radius: 11px; }
+    .top-nav { display: flex; align-items: center; justify-content: flex-end; gap: 22px; }
     .nav-link { color: var(--muted); }
     .nav-link:hover, .nav-link:focus-visible { color: var(--text); }
+    .nav-menu { position: relative; }
+    .nav-menu summary { cursor: pointer; list-style: none; }
+    .nav-menu summary::-webkit-details-marker { display: none; }
+    .nav-menu summary span { display: inline-block; margin-left: 3px; color: #d0b9ff; transition: transform .16s ease; }
+    .nav-menu[open] summary span { transform: rotate(180deg); }
+    .nav-popover {
+      position: absolute;
+      z-index: 5;
+      top: calc(100% + 12px);
+      right: 0;
+      width: 190px;
+      padding: 8px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: rgba(18, 16, 49, .98);
+      box-shadow: var(--shadow);
+    }
+    .nav-popover a { display: block; padding: 9px 10px; border-radius: 9px; color: var(--muted); text-decoration: none; font-size: .94rem; }
+    .nav-popover a:hover, .nav-popover a:focus-visible { background: rgba(176, 92, 255, .14); color: var(--text); }
 
     :where(a, summary):focus-visible {
       outline: 3px solid var(--cyan);
@@ -328,6 +348,9 @@
     }
 
     @media (max-width: 650px) {
+      header { align-items: flex-start; }
+      .top-nav { flex-wrap: wrap; gap: 8px 14px; }
+      .nav-popover { right: -8px; }
       .hero { padding-top: 48px; }
       .section { padding: 62px 0; }
       .answer-card { grid-template-columns: 1fr; }
@@ -343,7 +366,14 @@
   <div class="shell">
     <header>
       <a class="home-link" href="../../"><img src="../../../assets/floppy-icon.png" alt="">Back to Floppy</a>
-      <a class="nav-link" href="https://github.com/dannyvfilms/Floppy">GitHub ↗</a>
+      <nav class="top-nav" aria-label="Primary navigation">
+        <a class="nav-link" href="../../features/">Features</a>
+        <details class="nav-menu">
+          <summary class="nav-link">Compare <span aria-hidden="true">⌄</span></summary>
+          <div class="nav-popover"><a href="./">Floppy vs Yamtrack</a></div>
+        </details>
+        <a class="nav-link" href="https://github.com/dannyvfilms/Floppy">GitHub ↗</a>
+      </nav>
     </header>
 
     <main>
