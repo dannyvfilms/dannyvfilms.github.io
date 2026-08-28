@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#07061b">
+  <meta name="description" content="Looking for a TV Time alternative after the shutdown? Import your saved TV Time archive, track episodes, keep Up Next, remember rewatches and history, and organize shows in Floppy.">
+  <link rel="canonical" href="https://dannyvfilms.github.io/floppy/alternatives/tv-time/">
+  <meta property="og:title" content="TV Time alternative after the shutdown | Floppy">
+  <meta property="og:description" content="Import your saved TV Time archive, then keep the episode habit, upcoming releases, rewatches, stats, and history in a personal media library you control.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://dannyvfilms.github.io/floppy/alternatives/tv-time/">
+  <meta property="og:image" content="https://dannyvfilms.github.io/assets/floppy-banner.webp">
+  <meta name="twitter:card" content="summary_large_image">
+  <title>TV Time alternative after the shutdown | Floppy</title>
+  <link rel="icon" href="../../../assets/floppy-icon.png">
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #07061b;
+      --surface: #121031;
+      --line: rgba(144, 115, 255, .24);
+      --line-soft: rgba(151, 122, 255, .15);
+      --text: #fbfaff;
+      --muted: #bbb6d4;
+      --muted-2: #918bab;
+      --purple: #b05cff;
+      --cyan: #24d7ff;
+      --orange: #ff9d20;
+      --green: #a8e634;
+      --amber: #ffc857;
+      --shadow: 0 28px 90px rgba(0, 0, 0, .42);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; overflow-x: hidden; font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: var(--text); background: radial-gradient(circle at 15% 8%, rgba(71, 42, 183, .28), transparent 31rem), radial-gradient(circle at 88% 35%, rgba(11, 169, 218, .12), transparent 32rem), var(--bg); line-height: 1.65; }
+    a { color: inherit; }
+    img { max-width: 100%; display: block; }
+    .shell { width: min(1120px, calc(100% - 36px)); margin: 0 auto; }
+
+    header { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 22px 0; }
+    .home-link, .nav-link { text-decoration: none; font-weight: 850; }
+    .home-link { display: inline-flex; align-items: center; gap: 10px; white-space: nowrap; }
+    .home-link img { width: 38px; height: 38px; object-fit: cover; border-radius: 11px; }
+    .top-nav { display: flex; align-items: center; justify-content: flex-end; gap: 22px; }
+    .nav-link { color: var(--muted); }
+    .nav-link:hover, .nav-link:focus-visible { color: var(--text); }
+    .nav-menu { position: relative; }
+    .nav-menu summary { cursor: pointer; list-style: none; }
+    .nav-menu summary::-webkit-details-marker { display: none; }
+    .nav-menu summary span { display: inline-block; margin-left: 3px; color: #d0b9ff; transition: transform .16s ease; }
+    .nav-menu[open] summary span { transform: rotate(180deg); }
+    .nav-popover { position: absolute; z-index: 5; top: calc(100% + 12px); right: 0; width: 210px; padding: 8px; border: 1px solid var(--line); border-radius: 14px; background: rgba(18, 16, 49, .98); box-shadow: var(--shadow); }
+    .nav-popover a { display: block; padding: 9px 10px; border-radius: 9px; color: var(--muted); text-decoration: none; font-size: .94rem; }
+    .nav-popover a:hover, .nav-popover a:focus-visible { background: rgba(176, 92, 255, .14); color: var(--text); }
+    :where(a, summary):focus-visible { outline: 3px solid var(--cyan); outline-offset: 4px; border-radius: 6px; }
+
+    .hero { padding: 76px 0 88px; }
+    .hero-grid { display: grid; grid-template-columns: minmax(0, 1.04fr) minmax(360px, .96fr); gap: clamp(32px, 6vw, 76px); align-items: center; }
+    .eyebrow { margin: 0 0 14px; color: #d0b9ff; font-size: .78rem; font-weight: 950; letter-spacing: .16em; text-transform: uppercase; }
+    h1, h2, h3, p { overflow-wrap: anywhere; }
+    h1 { max-width: 700px; margin: 0; font-size: clamp(3.2rem, 6.4vw, 6rem); line-height: .92; letter-spacing: -.045em; }
+    .headline-line, .section-line, .closing-line { display: block; }
+    h1 .accent { color: #d0b9ff; }
+    .hero-copy { max-width: 670px; margin: 28px 0 0; color: var(--muted); font-size: clamp(1.08rem, 2vw, 1.3rem); }
+    .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+    .button { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 21px; border: 1px solid var(--line); border-radius: 999px; text-decoration: none; font-weight: 900; transition: transform .16s ease, border-color .16s ease, background .16s ease; }
+    .button:hover { transform: translateY(-2px); border-color: rgba(202, 181, 255, .64); }
+    .button.primary { color: #090820; border: 0; background: linear-gradient(105deg, var(--orange), #ffe240, #71e000, var(--cyan), var(--purple)); }
+
+    .hero-visual { position: relative; display: flex; flex-direction: column; min-height: 480px; padding: 22px; border: 1px solid var(--line); border-radius: 30px; background: linear-gradient(155deg, rgba(38, 28, 94, .88), rgba(8, 8, 29, .97)); box-shadow: var(--shadow); overflow: hidden; }
+    .hero-visual::before { position: absolute; inset: 0; content: ""; background: linear-gradient(180deg, rgba(9, 7, 28, .12), rgba(7, 6, 27, .88) 72%), url("../../../assets/floppy-banner.webp") center top / cover; opacity: .55; }
+    .visual-caption { position: relative; z-index: 1; display: flex; justify-content: space-between; gap: 12px; color: #efe7ff; font-size: .78rem; font-weight: 950; letter-spacing: .13em; text-transform: uppercase; }
+    .live-dot { color: var(--green); }
+    .mini-dashboard { position: relative; z-index: 1; margin-top: 24px; padding: 20px; border: 1px solid rgba(202, 181, 255, .28); border-radius: 20px; background: rgba(10, 9, 34, .88); backdrop-filter: blur(12px); }
+    .mini-dashboard h2 { margin: 0; font-size: 1.2rem; letter-spacing: -.035em; }
+    .mini-dashboard > p { margin: 3px 0 16px; color: var(--muted-2); font-size: .85rem; }
+    .mini-row { display: grid; grid-template-columns: 48px minmax(0, 1fr) auto; gap: 12px; align-items: center; padding: 12px 0; border-top: 1px solid var(--line-soft); }
+    .mini-poster { width: 48px; height: 52px; border-radius: 9px; background: linear-gradient(145deg, #ff8b43, #9f42d8); }
+    .mini-poster.blue { background: linear-gradient(145deg, #28d7ff, #254de2); }
+    .mini-poster.green { background: linear-gradient(145deg, #dbef39, #25a869); }
+    .mini-row strong { display: block; font-size: .96rem; }
+    .mini-row span { display: block; color: var(--muted-2); font-size: .79rem; }
+    .mini-status { color: #d9c5ff !important; font-size: .78rem !important; font-weight: 850; text-align: right; }
+    .progress-line { height: 5px; margin-top: 7px; border-radius: 999px; background: rgba(255,255,255,.1); overflow: hidden; }
+    .progress-line i { display: block; width: 68%; height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--orange), var(--cyan)); }
+    .progress-line i.short { width: 35%; background: linear-gradient(90deg, var(--purple), var(--cyan)); }
+    .progress-line i.done { width: 100%; background: var(--green); }
+
+    .hero-note { display: grid; grid-template-columns: 42px minmax(0, 1fr); gap: 14px; align-items: start; margin-top: 68px; padding: 22px 24px; border: 1px solid var(--line); border-radius: 20px; background: linear-gradient(135deg, rgba(27, 24, 69, .92), rgba(10, 9, 34, .88)); }
+    .note-mark { display: inline-flex; align-items: center; justify-content: center; width: 42px; height: 42px; border-radius: 13px; background: linear-gradient(145deg, rgba(176, 92, 255, .32), rgba(36, 215, 255, .15)); color: #f0ddff; font-size: 1.25rem; }
+    .hero-note strong { display: block; font-size: 1.06rem; }
+    .hero-note p { margin: 4px 0 0; color: var(--muted); }
+
+    .section { padding: 88px 0; border-top: 1px solid var(--line-soft); }
+    .section-heading { display: grid; grid-template-columns: 52px minmax(0, 1fr); gap: 18px; align-items: start; }
+    .section-mark { display: inline-flex; align-items: center; justify-content: center; width: 46px; height: 46px; margin-top: 30px; border: 1px solid var(--line); border-radius: 13px; background: linear-gradient(145deg, rgba(176, 92, 255, .3), rgba(36, 215, 255, .14)); color: #f0ddff; font-size: 1.18rem; }
+    .section h2 { max-width: 850px; margin: 0; font-size: clamp(2.35rem, 5vw, 4.1rem); letter-spacing: -.06em; line-height: .94; }
+    .section-intro { max-width: 850px; margin: 20px 0 0 70px; color: var(--muted); font-size: 1.08rem; }
+
+    .feature-grid, .history-wrap, .status-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 44px; }
+    .feature-card, .history-card, .status-card { min-height: 250px; padding: 25px; border: 1px solid var(--line-soft); border-radius: 21px; background: rgba(18, 16, 49, .75); }
+    .card-kicker { margin: 0 0 17px; color: #d0b9ff; font-size: .76rem; font-weight: 950; letter-spacing: .14em; text-transform: uppercase; }
+    .feature-card h3, .history-card h3, .status-card h3, .honest-card h3, .migration-card h3 { margin: 0 0 10px; font-size: 1.34rem; letter-spacing: -.025em; }
+    .feature-card p, .history-card p, .status-card p, .honest-card p, .migration-card p { margin: 0; color: var(--muted); }
+    .feature-card .card-foot, .history-card .card-foot { margin-top: 24px; color: #f0ddff; font-size: .91rem; font-weight: 800; }
+
+    .honest-banner { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 18px; align-items: start; margin-top: 44px; padding: clamp(24px, 4vw, 34px); border: 1px solid rgba(255, 200, 87, .38); border-radius: 24px; background: linear-gradient(135deg, rgba(73, 48, 22, .46), rgba(31, 22, 57, .78)); }
+    .honest-icon { display: inline-flex; align-items: center; justify-content: center; width: 48px; height: 48px; border: 1px solid rgba(255, 200, 87, .4); border-radius: 14px; color: var(--amber); font-size: 1.3rem; }
+    .honest-banner h3 { margin: 0 0 8px; font-size: 1.4rem; letter-spacing: -.025em; }
+    .honest-banner p { max-width: 840px; margin: 0; color: #d8cdbd; }
+    .honest-banner a { color: #ffe5a2; font-weight: 850; text-underline-offset: 4px; }
+
+    .status-grid { grid-template-columns: repeat(2, 1fr); }
+    .status-card { min-height: 190px; }
+    .status-card h3 { font-size: 1.25rem; }
+    .status-card .status-label { display: inline-flex; align-items: center; gap: 7px; margin-bottom: 17px; color: #d0b9ff; font-size: .78rem; font-weight: 950; letter-spacing: .1em; text-transform: uppercase; }
+    .status-label::before { width: 8px; height: 8px; content: ""; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 14px rgba(36, 215, 255, .8); }
+
+    .media-band { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 24px; align-items: center; margin-top: 44px; padding: clamp(26px, 5vw, 42px); border: 1px solid var(--line); border-radius: 26px; background: linear-gradient(140deg, rgba(38, 25, 82, .95), rgba(10, 31, 55, .9)); box-shadow: var(--shadow); }
+    .media-band h3 { margin: 0 0 10px; font-size: 1.55rem; letter-spacing: -.04em; }
+    .media-band p { max-width: 690px; margin: 0; color: var(--muted); }
+    .media-chips { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; max-width: 310px; }
+    .chip { padding: 7px 11px; border: 1px solid var(--line); border-radius: 999px; color: #e9dcff; background: rgba(176, 92, 255, .1); font-size: .86rem; font-weight: 850; }
+
+    .migration-grid, .stack-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; margin-top: 44px; }
+    .honest-card, .stack-card { padding: clamp(24px, 4vw, 34px); border: 1px solid var(--line-soft); border-radius: 23px; background: rgba(18, 16, 49, .72); }
+    .honest-card.featured, .stack-card.featured { border-color: rgba(36, 215, 255, .38); background: linear-gradient(140deg, rgba(28, 31, 81, .94), rgba(10, 31, 53, .82)); }
+    .honest-card ul { margin: 18px 0 0; padding-left: 1.2rem; color: var(--muted); }
+    .honest-card li + li { margin-top: 8px; }
+    .status { display: inline-flex; align-items: center; gap: 7px; margin: 0 0 17px; color: #ffe5a2; font-size: .8rem; font-weight: 950; letter-spacing: .1em; text-transform: uppercase; }
+    .status::before { width: 8px; height: 8px; content: ""; border-radius: 50%; background: var(--amber); box-shadow: 0 0 14px rgba(255, 200, 87, .85); }
+    .status.supported { color: #d6f59b; }
+    .status.supported::before { background: var(--green); box-shadow: 0 0 14px rgba(168, 230, 52, .85); }
+    .migration-note { margin-top: 18px !important; color: #d8cdbd !important; font-size: .92rem; }
+    .migration-note strong { color: #ffe5a2; }
+    .text-link { color: #d8c6ff; font-weight: 850; text-underline-offset: 4px; }
+    code { padding: .1em .4em; border: 1px solid var(--line); border-radius: 6px; background: rgba(255,255,255,.04); color: #f7d6ff; overflow-wrap: anywhere; }
+
+    .closing { padding: 96px 0 76px; text-align: center; }
+    .closing h2 { max-width: 1000px; margin: 0 auto; font-size: clamp(2.7rem, 5vw, 4.5rem); letter-spacing: -.045em; line-height: .94; }
+    .closing p { max-width: 660px; margin: 22px auto 0; color: var(--muted); font-size: 1.08rem; }
+    .closing .actions { justify-content: center; }
+    footer { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; padding: 34px 0 46px; color: #8f89aa; font-size: .92rem; }
+
+    @media (max-width: 900px) {
+      .hero-grid { grid-template-columns: 1fr; }
+      .hero-visual { min-height: 420px; max-width: 680px; }
+      .feature-grid, .history-wrap { grid-template-columns: 1fr; }
+      .feature-card, .history-card { min-height: auto; }
+      .media-band { grid-template-columns: 1fr; }
+      .media-chips { justify-content: flex-start; max-width: none; }
+    }
+
+    @media (max-width: 650px) {
+      .shell { width: min(100% - 28px, 1120px); }
+      header { align-items: flex-start; }
+      .top-nav { flex-wrap: wrap; gap: 8px 14px; }
+      .nav-popover { right: -8px; }
+      .hero { padding-top: 48px; }
+      .hero-visual { min-height: 390px; padding: 17px; border-radius: 23px; }
+      .mini-dashboard { margin-top: 24px; padding: 16px; }
+      .mini-row { grid-template-columns: 38px minmax(0, 1fr); gap: 9px; }
+      .mini-poster { width: 38px; height: 44px; }
+      .mini-status { grid-column: 2; text-align: left; }
+      .hero-note { grid-template-columns: 1fr; margin-top: 46px; }
+      .section { padding: 68px 0; }
+      .section-heading { grid-template-columns: 1fr; gap: 14px; }
+      .section-mark { margin-top: 0; }
+      .section-intro { margin-left: 0; }
+      .status-grid, .migration-grid, .stack-grid { grid-template-columns: 1fr; }
+      .honest-banner { grid-template-columns: 1fr; }
+      .closing { padding-top: 74px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header>
+      <a class="home-link" href="../../"><img src="../../../assets/floppy-icon.png" alt="">Floppy</a>
+      <nav class="top-nav" aria-label="Primary navigation">
+        <a class="nav-link" href="../../features/">Features</a>
+        <a class="nav-link" href="../../integrations/">Integrations</a>
+        <details class="nav-menu">
+          <summary class="nav-link">Alternatives <span aria-hidden="true">⌄</span></summary>
+          <div class="nav-popover"><a href="../trakt/">Self-hosted Trakt alternative</a><a href="./">TV Time alternative</a></div>
+        </details>
+        <a class="nav-link" href="https://github.com/dannyvfilms/Floppy">GitHub ↗</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="hero-grid">
+          <div>
+            <p class="eyebrow">A TV Time alternative after the shutdown</p>
+            <h1><span class="headline-line">Your shows still need a home.</span><span class="headline-line accent">Keep the history this time.</span></h1>
+            <p class="hero-copy">Floppy is a self-hosted TV Time alternative for the part that was yours: the episodes you watched, where you stopped, what comes next, your rewatches, ratings, and years of history.</p>
+            <div class="actions">
+              <a class="button primary" href="https://yamtrack.dannyvfilms.com">Try Floppy</a>
+              <a class="button" href="#tracking-loop">See the tracking loop</a>
+            </div>
+          </div>
+
+          <div class="hero-visual" aria-label="Illustration of a Floppy episode tracker showing the next episode, a watch-later list, and monthly history">
+            <div class="visual-caption"><span>your watch queue</span><span class="live-dot">● your data</span></div>
+            <div class="mini-dashboard">
+              <h2>What comes next</h2>
+              <p>Keep the small details in view.</p>
+              <div class="mini-row"><div class="mini-poster"></div><div><strong>Tonight’s episode</strong><span>Pick up where you stopped</span><div class="progress-line"><i></i></div></div><span class="mini-status">continue</span></div>
+              <div class="mini-row"><div class="mini-poster blue"></div><div><strong>Watch later</strong><span>Save it for the right night</span><div class="progress-line"><i class="short"></i></div></div><span class="mini-status">saved</span></div>
+              <div class="mini-row"><div class="mini-poster green"></div><div><strong>This month</strong><span>Dates, repeats, and stats</span><div class="progress-line"><i class="done"></i></div></div><span class="mini-status">remembered</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-note">
+          <span class="note-mark" aria-hidden="true">♥</span>
+          <div><strong>The tracker should feel like a small daily habit.</strong><p>Open it, see what is next, check it off, and come back to a history that remembers the details.</p></div>
+        </div>
+      </section>
+
+      <section class="section" id="tracking-loop" aria-labelledby="loop-title">
+        <div class="section-heading"><span class="section-mark" aria-hidden="true">▶</span><div><p class="eyebrow">The daily loop</p><h2 id="loop-title"><span class="section-line">Open it.</span><span class="section-line">See what is next.</span><span class="section-line">Check it off.</span></h2></div></div>
+        <p class="section-intro">Your active shows stay close. Floppy remembers your episode progress, surfaces what comes next, shows upcoming releases, and can notify you when a new episode arrives.</p>
+        <div class="feature-grid">
+          <article class="feature-card"><p class="card-kicker">Check it off</p><h3>Keep your place in the season.</h3><p>Track episodes individually, see in-progress shows on the home page, and return without guessing which episode you reached.</p><p class="card-foot">Episode progress · watched state</p></article>
+          <article class="feature-card"><p class="card-kicker">Up Next</p><h3>Find what comes next.</h3><p>Keep next episodes and upcoming releases in view, with opt-in notifications when a nudge would help.</p><p class="card-foot">Next episode · calendar · notifications</p></article>
+          <article class="feature-card"><p class="card-kicker">Keep the month</p><h3>Remember more than a green check.</h3><p>Keep watch dates, ratings, repeat watches, statistics, and custom date ranges so your watching has a shape when you look back.</p><p class="card-foot">History · rewatches · recaps</p></article>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="social-title">
+        <div class="section-heading"><span class="section-mark" aria-hidden="true">✦</span><div><p class="eyebrow">A clear boundary</p><h2 id="social-title">The comments were part of it.</h2></div></div>
+        <div class="honest-banner"><span class="honest-icon" aria-hidden="true">!</span><div><h3>If comments were the best part, Floppy is not that replacement.</h3><p>Episode theories, jokes, reactions, and the feeling of watching together were real. Floppy does not recreate that social network. It is for the personal record underneath: what you watched, what comes next, and what you want to keep. <a href="../../features/">See the full feature guide →</a></p></div></div>
+      </section>
+
+      <section class="section" aria-labelledby="organize-title">
+        <div class="section-heading"><span class="section-mark" aria-hidden="true">☷</span><div><p class="eyebrow">Make the list useful again</p><h2 id="organize-title">Up Next, Watch Later, Stopped.</h2></div></div>
+        <p class="section-intro">Floppy does not claim that every TV Time label maps one-to-one. It gives you statuses, custom lists, and smart lists so you can build the views that made your own routine work.</p>
+        <div class="status-grid">
+          <article class="status-card"><span class="status-label">Up Next</span><h3>Keep active shows close.</h3><p>Use progress views and the next episode to make the current queue easy to pick up.</p></article>
+          <article class="status-card"><span class="status-label">Haven’t Started</span><h3>Give the backlog a shape.</h3><p>Build a smart view for shows you have not started, filtered by the things you care about.</p></article>
+          <article class="status-card"><span class="status-label">Watch Later</span><h3>Save a future night.</h3><p>Make custom lists for a mood, a friend’s recommendation, a season, or the show you keep meaning to start.</p></article>
+          <article class="status-card"><span class="status-label">Stopped</span><h3>Pause without losing it.</h3><p>Use a status or list to keep a paused show findable instead of letting it disappear from the library.</p></article>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="shelf-title">
+        <div class="section-heading"><span class="section-mark" aria-hidden="true">⌂</span><div><p class="eyebrow">Keep the shelf together</p><h2 id="shelf-title">Keep TV, anime, and movies together.</h2></div></div>
+        <p class="section-intro">Former TV Time users often do not want separate trackers for live action, anime, western animation, and movies. Floppy keeps those parts of your watching life together, then leaves room to grow.</p>
+        <div class="media-band"><div><h3>One history, even when the media changes.</h3><p>Follow a show into cast and studio pages, or let movies, books, games, music, and podcasts live beside it when your tracking habit expands.</p></div><div class="media-chips"><span class="chip">TV series</span><span class="chip">Anime</span><span class="chip">Animation</span><span class="chip">Movies</span><span class="chip">More media</span></div></div>
+      </section>
+
+      <section class="section" aria-labelledby="migration-title">
+        <div class="section-heading"><span class="section-mark" aria-hidden="true">↥</span><div><p class="eyebrow">Bring your history with you</p><h2 id="migration-title"><span class="section-line">You already lost the service.</span><span class="section-line">Keep the history.</span></h2></div></div>
+        <p class="section-intro">TV Time’s service has closed, but your saved GDPR archive or tracking CSV gives the watch history a way forward. Floppy can import the files, map the episodes into your library, and keep the result reviewable.</p>
+        <div class="migration-grid">
+          <article class="honest-card"><p class="status supported">Import supported</p><h3>Bring the archive you saved.</h3><p>Upload a <code>gdpr-data.zip</code> or <code>tracking-prod-records-v2.csv</code>. Floppy imports watched episodes and progress, keeps original dates where available, and surfaces records that need a closer look.</p><p class="migration-note"><strong>Keep the original file:</strong> it remains your source copy while you verify the imported history.</p></article>
+          <article class="honest-card featured"><p class="card-kicker">After the import</p><h3>Keep the next copy yourself.</h3><p>Review what matched, keep the details that matter, then use Floppy’s portable exports and scheduled backups so this history has a durable home.</p><div class="actions"><a class="text-link" href="https://yamtrack.dannyvfilms.com">Start with Floppy ↗</a><a class="text-link" href="../../features/">See current features ↗</a></div></article>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="stack-title">
+        <div class="section-heading"><span class="section-mark" aria-hidden="true">⇄</span><div><p class="eyebrow">If your shows live elsewhere</p><h2 id="stack-title">Let playback help keep you current.</h2></div></div>
+        <p class="section-intro">If you already watch through a home media server, Floppy can receive playback activity instead of asking you to mark every episode twice.</p>
+        <div class="stack-grid">
+          <article class="stack-card featured"><p class="card-kicker">Playback</p><h3>Plex and Jellyfin live tracking.</h3><p>Use webhooks and scheduled backfill to bring playback events and library context into your episode history.</p><div class="chip-row"><span class="chip">Plex</span><span class="chip">Jellyfin</span><span class="chip">Stremio</span></div></article>
+          <article class="stack-card"><p class="card-kicker">When TV is not enough</p><h3>Let the rest of your media life join later.</h3><p>Keep movies and anime close now. Add books, games, music, and podcasts when you want one place for the whole shelf.</p><div class="chip-row"><span class="chip">Movies</span><span class="chip">Anime</span><span class="chip">Books</span><span class="chip">Games</span></div></article>
+        </div>
+        <div class="actions"><a class="text-link" href="../../integrations/">Explore integrations ↗</a></div>
+      </section>
+
+      <section class="closing" aria-labelledby="closing-title">
+        <p class="eyebrow">A personal place to come back to</p>
+        <h2 id="closing-title"><span class="closing-line">Give the next episode</span><span class="closing-line">somewhere to go.</span></h2>
+        <p>Keep the habit simple, keep the details that matter, and let your watch history stay yours.</p>
+        <div class="actions"><a class="button primary" href="https://yamtrack.dannyvfilms.com">Try Floppy</a><a class="button" href="../../">Back to Floppy</a></div>
+      </section>
+    </main>
+
+    <footer><span>Floppy is open source and independently maintained.</span><span><a class="text-link" href="https://github.com/dannyvfilms/Floppy/wiki">Wiki</a> · <a class="text-link" href="https://github.com/dannyvfilms/Floppy/pkgs/container/floppy">Docker image</a></span></footer>
+  </div>
+</body>
+</html>

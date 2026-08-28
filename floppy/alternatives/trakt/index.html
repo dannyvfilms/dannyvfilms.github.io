@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#07061b">
+  <meta name="description" content="A self-hosted Trakt alternative for episode progress, watch history, lists, collections, calendar, integrations, and portable media data.">
+  <link rel="canonical" href="https://dannyvfilms.github.io/floppy/alternatives/trakt/">
+  <meta property="og:title" content="A self-hosted Trakt alternative | Floppy">
+  <meta property="og:description" content="Keep your progress, history, lists, and media-server workflows while keeping your media data on hardware you control.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://dannyvfilms.github.io/floppy/alternatives/trakt/">
+  <meta property="og:image" content="https://dannyvfilms.github.io/assets/floppy-banner.webp">
+  <meta name="twitter:card" content="summary_large_image">
+  <title>A self-hosted Trakt alternative | Floppy</title>
+  <link rel="icon" href="../../../assets/floppy-icon.png">
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #07061b;
+      --surface: #121031;
+      --surface-2: #181540;
+      --surface-3: #0d0c28;
+      --line: rgba(144, 115, 255, .24);
+      --line-soft: rgba(151, 122, 255, .15);
+      --text: #fbfaff;
+      --muted: #bbb6d4;
+      --muted-2: #918bab;
+      --purple: #b05cff;
+      --cyan: #24d7ff;
+      --orange: #ff9d20;
+      --green: #a8e634;
+      --shadow: 0 28px 90px rgba(0, 0, 0, .42);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      overflow-x: hidden;
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 15% 8%, rgba(71, 42, 183, .28), transparent 31rem),
+        radial-gradient(circle at 88% 35%, rgba(11, 169, 218, .12), transparent 32rem),
+        var(--bg);
+      line-height: 1.65;
+    }
+
+    a { color: inherit; }
+    img { max-width: 100%; display: block; }
+    .shell { width: min(1120px, calc(100% - 36px)); margin: 0 auto; }
+
+    header { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 22px 0; }
+    .home-link, .nav-link { text-decoration: none; font-weight: 850; }
+    .home-link { display: inline-flex; align-items: center; gap: 10px; white-space: nowrap; }
+    .home-link img { width: 38px; height: 38px; object-fit: cover; border-radius: 11px; }
+    .top-nav { display: flex; align-items: center; justify-content: flex-end; gap: 22px; }
+    .nav-link { color: var(--muted); }
+    .nav-link:hover, .nav-link:focus-visible { color: var(--text); }
+    .nav-menu { position: relative; }
+    .nav-menu summary { cursor: pointer; list-style: none; }
+    .nav-menu summary::-webkit-details-marker { display: none; }
+    .nav-menu summary span { display: inline-block; margin-left: 3px; color: #d0b9ff; transition: transform .16s ease; }
+    .nav-menu[open] summary span { transform: rotate(180deg); }
+    .nav-popover { position: absolute; z-index: 5; top: calc(100% + 12px); right: 0; width: 210px; padding: 8px; border: 1px solid var(--line); border-radius: 14px; background: rgba(18, 16, 49, .98); box-shadow: var(--shadow); }
+    .nav-popover a { display: block; padding: 9px 10px; border-radius: 9px; color: var(--muted); text-decoration: none; font-size: .94rem; }
+    .nav-popover a:hover, .nav-popover a:focus-visible { background: rgba(176, 92, 255, .14); color: var(--text); }
+    :where(a, summary):focus-visible { outline: 3px solid var(--cyan); outline-offset: 4px; border-radius: 6px; }
+
+    .hero { padding: 76px 0 88px; }
+    .hero-grid { display: grid; grid-template-columns: minmax(0, 1.04fr) minmax(360px, .96fr); gap: clamp(32px, 6vw, 76px); align-items: center; }
+    .eyebrow { margin: 0 0 14px; color: #d0b9ff; font-size: .78rem; font-weight: 950; letter-spacing: .16em; text-transform: uppercase; }
+    h1, h2, h3, p { overflow-wrap: anywhere; }
+    h1 { max-width: 700px; margin: 0; font-size: clamp(3.25rem, 6.7vw, 6.2rem); line-height: .91; letter-spacing: -.045em; }
+    h1 .hero-headline-line, .section-line, .closing-line { display: block; }
+    h1 .accent { color: #d0b9ff; }
+    .hero-copy { max-width: 670px; margin: 28px 0 0; color: var(--muted); font-size: clamp(1.08rem, 2vw, 1.3rem); }
+    .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+    .button { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 21px; border: 1px solid var(--line); border-radius: 999px; text-decoration: none; font-weight: 900; transition: transform .16s ease, border-color .16s ease, background .16s ease; }
+    .button:hover { transform: translateY(-2px); border-color: rgba(202, 181, 255, .64); }
+    .button.primary { color: #090820; border: 0; background: linear-gradient(105deg, var(--orange), #ffe240, #71e000, var(--cyan), var(--purple)); }
+
+    .hero-visual { position: relative; display: flex; flex-direction: column; min-height: 480px; padding: 22px; border: 1px solid var(--line); border-radius: 30px; background: linear-gradient(155deg, rgba(38, 28, 94, .88), rgba(8, 8, 29, .97)); box-shadow: var(--shadow); overflow: hidden; }
+    .hero-visual::before { position: absolute; inset: 0; content: ""; background: linear-gradient(180deg, rgba(9, 7, 28, .12), rgba(7, 6, 27, .88) 72%), url("../../../assets/floppy-banner.webp") center top / cover; opacity: .55; }
+    .visual-caption { position: relative; z-index: 1; display: flex; justify-content: space-between; gap: 12px; color: #efe7ff; font-size: .78rem; font-weight: 950; letter-spacing: .13em; text-transform: uppercase; }
+    .live-dot { color: var(--green); }
+    .mini-dashboard { position: relative; z-index: 1; margin-top: 24px; padding: 20px; border: 1px solid rgba(202, 181, 255, .28); border-radius: 20px; background: rgba(10, 9, 34, .88); backdrop-filter: blur(12px); }
+    .mini-dashboard h2 { margin: 0; font-size: 1.2rem; letter-spacing: -.035em; }
+    .mini-dashboard > p { margin: 3px 0 16px; color: var(--muted-2); font-size: .85rem; }
+    .mini-row { display: grid; grid-template-columns: 48px minmax(0, 1fr) auto; gap: 12px; align-items: center; padding: 12px 0; border-top: 1px solid var(--line-soft); }
+    .mini-poster { width: 48px; height: 52px; border-radius: 9px; background: linear-gradient(145deg, #ff8b43, #9f42d8); }
+    .mini-poster.blue { background: linear-gradient(145deg, #28d7ff, #254de2); }
+    .mini-poster.green { background: linear-gradient(145deg, #dbef39, #25a869); }
+    .mini-row strong { display: block; font-size: .96rem; }
+    .mini-row span { display: block; color: var(--muted-2); font-size: .79rem; }
+    .mini-status { color: #d9c5ff !important; font-size: .78rem !important; font-weight: 850; text-align: right; }
+    .progress-line { height: 5px; margin-top: 7px; border-radius: 999px; background: rgba(255,255,255,.1); overflow: hidden; }
+    .progress-line i { display: block; width: 68%; height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--orange), var(--cyan)); }
+    .progress-line i.short { width: 35%; background: linear-gradient(90deg, var(--purple), var(--cyan)); }
+    .progress-line i.done { width: 100%; background: var(--green); }
+
+    .hero-note { display: grid; grid-template-columns: 42px minmax(0, 1fr); gap: 14px; align-items: start; margin-top: 68px; padding: 22px 24px; border: 1px solid var(--line); border-radius: 20px; background: linear-gradient(135deg, rgba(27, 24, 69, .92), rgba(10, 9, 34, .88)); }
+    .note-mark { display: inline-flex; align-items: center; justify-content: center; width: 42px; height: 42px; border-radius: 13px; background: linear-gradient(145deg, rgba(176, 92, 255, .32), rgba(36, 215, 255, .15)); color: #f0ddff; font-size: 1.25rem; }
+    .hero-note strong { display: block; font-size: 1.06rem; }
+    .hero-note p { margin: 4px 0 0; color: var(--muted); }
+
+    .section { padding: 88px 0; border-top: 1px solid var(--line-soft); }
+    .section-heading { display: grid; grid-template-columns: 52px minmax(0, 1fr); gap: 18px; align-items: start; }
+    .section-mark { display: inline-flex; align-items: center; justify-content: center; width: 46px; height: 46px; margin-top: 30px; border: 1px solid var(--line); border-radius: 13px; background: linear-gradient(145deg, rgba(176, 92, 255, .3), rgba(36, 215, 255, .14)); color: #f0ddff; font-size: 1.18rem; }
+    .section h2 { max-width: 850px; margin: 0; font-size: clamp(2.35rem, 5vw, 4.1rem); letter-spacing: -.06em; line-height: .94; }
+    .section-intro { max-width: 850px; margin: 20px 0 0 70px; color: var(--muted); font-size: 1.08rem; }
+
+    .feature-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 44px; }
+    .feature-card { min-height: 280px; padding: 25px; border: 1px solid var(--line-soft); border-radius: 21px; background: rgba(18, 16, 49, .75); }
+    .card-kicker { margin: 0 0 17px; color: #d0b9ff; font-size: .76rem; font-weight: 950; letter-spacing: .14em; text-transform: uppercase; }
+    .feature-card h3, .stack-card h3, .honest-card h3, .migration-card h3 { margin: 0 0 10px; font-size: 1.34rem; letter-spacing: -.025em; }
+    .feature-card p, .stack-card p, .honest-card p, .migration-card p { margin: 0; color: var(--muted); }
+    .feature-card .card-foot { margin-top: 24px; color: #f0ddff; font-size: .91rem; font-weight: 800; }
+
+    .migration { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(300px, .95fr); gap: 22px; margin-top: 44px; padding: clamp(26px, 5vw, 42px); border: 1px solid var(--line); border-radius: 26px; background: linear-gradient(140deg, rgba(38, 25, 82, .95), rgba(10, 31, 55, .9)); box-shadow: var(--shadow); }
+    .migration > div:first-child > p:not(.card-kicker) { max-width: 660px; }
+    .migration-list { display: grid; gap: 10px; align-content: start; }
+    .migration-item { padding: 15px 17px; border: 1px solid var(--line-soft); border-radius: 14px; background: rgba(7, 6, 27, .35); }
+    .migration-item strong { display: block; color: #f7f2ff; }
+    .migration-item span { display: block; margin-top: 3px; color: var(--muted); font-size: .9rem; }
+    .status { display: inline-flex; align-items: center; gap: 7px; margin: 0 0 17px; color: #d6f59b; font-size: .8rem; font-weight: 950; letter-spacing: .1em; text-transform: uppercase; }
+    .status::before { width: 8px; height: 8px; content: ""; border-radius: 50%; background: var(--green); box-shadow: 0 0 14px rgba(168, 230, 52, .85); }
+
+    .stack-grid, .honest-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; margin-top: 44px; }
+    .stack-card, .honest-card { padding: clamp(24px, 4vw, 34px); border: 1px solid var(--line-soft); border-radius: 23px; background: rgba(18, 16, 49, .72); }
+    .stack-card.featured { border-color: rgba(36, 215, 255, .38); background: linear-gradient(140deg, rgba(28, 31, 81, .94), rgba(10, 31, 53, .82)); }
+    .chip-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
+    .chip { padding: 7px 11px; border: 1px solid var(--line); border-radius: 999px; color: #e9dcff; background: rgba(176, 92, 255, .1); font-size: .86rem; font-weight: 850; }
+    .honest-card ul { margin: 18px 0 0; padding-left: 1.2rem; color: var(--muted); }
+    .honest-card li + li { margin-top: 8px; }
+    .text-link { color: #d8c6ff; font-weight: 850; text-underline-offset: 4px; }
+
+    .more { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(260px, .9fr); gap: 22px; align-items: center; margin-top: 44px; padding: clamp(26px, 5vw, 44px); border: 1px solid var(--line); border-radius: 26px; background: linear-gradient(140deg, rgba(176, 92, 255, .15), rgba(36, 215, 255, .08)); }
+    .more h3 { margin: 0 0 10px; font-size: 1.55rem; letter-spacing: -.025em; }
+    .more p { max-width: 650px; margin: 0; color: var(--muted); }
+    .more-list { display: grid; gap: 9px; }
+    .more-item { padding: 11px 13px; border: 1px solid var(--line-soft); border-radius: 12px; background: rgba(7, 6, 27, .36); color: #ddd8f4; font-size: .93rem; }
+    .more-item strong { color: var(--text); }
+
+    .closing { padding: 96px 0 76px; text-align: center; }
+    .closing h2 { max-width: 1000px; margin: 0 auto; font-size: clamp(2.7rem, 5vw, 4.5rem); letter-spacing: -.045em; line-height: .94; }
+    .closing p { max-width: 660px; margin: 22px auto 0; color: var(--muted); font-size: 1.08rem; }
+    .closing .actions { justify-content: center; }
+    footer { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; padding: 34px 0 46px; color: #8f89aa; font-size: .92rem; }
+
+    @media (max-width: 900px) {
+      .hero-grid { grid-template-columns: 1fr; }
+      .hero-visual { min-height: 420px; max-width: 680px; }
+      .feature-grid { grid-template-columns: 1fr; }
+      .feature-card { min-height: auto; }
+    }
+
+    @media (max-width: 650px) {
+      .shell { width: min(100% - 28px, 1120px); }
+      header { align-items: flex-start; }
+      .top-nav { flex-wrap: wrap; gap: 8px 14px; }
+      .nav-popover { right: -8px; }
+      .hero { padding-top: 48px; }
+      .hero-visual { min-height: 390px; padding: 17px; border-radius: 23px; }
+      .mini-dashboard { margin-top: 24px; padding: 16px; }
+      .mini-row { grid-template-columns: 38px minmax(0, 1fr); gap: 9px; }
+      .mini-poster { width: 38px; height: 44px; }
+      .mini-status { grid-column: 2; text-align: left; }
+      .hero-note { grid-template-columns: 1fr; margin-top: 46px; }
+      .section { padding: 68px 0; }
+      .section-heading { grid-template-columns: 1fr; gap: 14px; }
+      .section-mark { margin-top: 0; }
+      .section-intro { margin-left: 0; }
+      .migration, .stack-grid, .honest-grid, .more { grid-template-columns: 1fr; }
+      .closing { padding-top: 74px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header>
+      <a class="home-link" href="../../"><img src="../../../assets/floppy-icon.png" alt="">Floppy</a>
+      <nav class="top-nav" aria-label="Primary navigation">
+        <a class="nav-link" href="../../features/">Features</a>
+        <a class="nav-link" href="../../integrations/">Integrations</a>
+        <details class="nav-menu">
+          <summary class="nav-link">Alternatives <span aria-hidden="true">⌄</span></summary>
+          <div class="nav-popover"><a href="./">Self-hosted Trakt alternative</a><a href="../tv-time/">TV Time alternative</a></div>
+        </details>
+        <a class="nav-link" href="https://github.com/dannyvfilms/Floppy">GitHub ↗</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="hero-grid">
+          <div>
+            <p class="eyebrow">For people leaving Trakt</p>
+            <h1><span class="hero-headline-line">Keep the tracking.</span><span class="hero-headline-line accent">Own the history.</span></h1>
+            <p class="hero-copy">Floppy is a self-hosted Trakt alternative for people who do not want years of watch history, episode progress, lists, and ratings tied to one hosted account. Bring the history with you, keep the workflows you rely on, and let Plex, Jellyfin, and the rest of your stack keep it current.</p>
+            <div class="actions">
+              <a class="button primary" href="https://yamtrack.dannyvfilms.com">Try Floppy</a>
+              <a class="button" href="#workflows">See the workflows</a>
+            </div>
+          </div>
+
+          <div class="hero-visual" aria-label="Illustration of a Floppy media dashboard showing progress and upcoming items">
+            <div class="visual-caption"><span>your media week</span><span class="live-dot">● under your control</span></div>
+            <div class="mini-dashboard">
+              <h2>Continue watching</h2>
+              <p>One glance at what is next.</p>
+              <div class="mini-row"><div class="mini-poster"></div><div><strong>Episode progress</strong><span>Season 2 · episode 4</span><div class="progress-line"><i></i></div></div><span class="mini-status">68% complete</span></div>
+              <div class="mini-row"><div class="mini-poster blue"></div><div><strong>Upcoming release</strong><span>Friday · your local time</span><div class="progress-line"><i class="short"></i></div></div><span class="mini-status">next up</span></div>
+              <div class="mini-row"><div class="mini-poster green"></div><div><strong>History stays useful</strong><span>Tracked, rated, and remembered</span><div class="progress-line"><i class="done"></i></div></div><span class="mini-status">saved</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-note">
+          <span class="note-mark" aria-hidden="true">↗</span>
+          <div><strong>Keep the system you depend on.</strong><p>Bring the database, keep the workflows, connect the stack, and own the next copy.</p></div>
+        </div>
+      </section>
+
+      <section class="section" id="workflows" aria-labelledby="workflows-title">
+        <div class="section-heading"><span class="section-mark" aria-hidden="true">▶</span><div><p class="eyebrow">Keep the system</p><h2 id="workflows-title">Keep the workflows you rely on.</h2></div></div>
+        <p class="section-intro">The point is continuity, not a feature checklist. Floppy gives your progress, lists, collection, calendar, and availability workflows a durable home, with clearer boundaries between them.</p>
+        <div class="feature-grid">
+          <article class="feature-card"><p class="card-kicker">Progress</p><h3>Always know where you left off.</h3><p>Track episodes individually, see what is in progress, and keep next-air information close to the shows you are following.</p><p class="card-foot">Episode-level progress · continue watching · next up</p></article>
+          <article class="feature-card"><p class="card-kicker">Lists + collection</p><h3>Watching, wanting, and owning are different.</h3><p>Keep your watchlist for what comes next. Use custom and smart lists for how you organize it. Keep your owned collection separate, with source, format, resolution, HDR, and other copy details when you care about them.</p><p class="card-foot">Watchlist · smart lists · owned copies</p></article>
+          <article class="feature-card"><p class="card-kicker">Calendar + availability</p><h3>See what is coming in the way you need it.</h3><p>Use the month and day calendar, an iCal feed, media-type filters, and watch-provider filters shaped around your region and pinned services.</p><p class="card-foot">Calendar · iCal · providers · local region</p></article>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="migration-title">
+        <div class="section-heading"><span class="section-mark" aria-hidden="true">↥</span><div><p class="eyebrow">Bring the years with you</p><h2 id="migration-title"><span class="section-line">Bring the database.</span><span class="section-line">Keep the workflows.</span></h2></div></div>
+        <p class="section-intro">Move the record you already built, then keep using it. Floppy has a Trakt import path today, with both live-account and file-based routes.</p>
+        <div class="migration">
+          <div><p class="status">Supported today</p><h3>Bring the history with you.</h3><p>Import your history, ratings, Watchlist, and custom lists. Original watched-at dates and repeat watches are preserved where the source provides them. The import is its own workflow. You do not need to keep Trakt as an ongoing dependency.</p><div class="actions"><a class="button primary" href="../../features/">See all Floppy features</a><a class="button" href="https://github.com/dannyvfilms/Floppy">Read the source</a></div></div>
+          <div class="migration-list"><div class="migration-item"><strong>Authenticated import</strong><span>Connect through the supported Trakt flow when you want a direct route. A Trakt VIP subscription is required for this route.</span></div><div class="migration-item"><strong>Export-file import</strong><span>Use Trakt’s free export when portability matters more than a live connection.</span></div><div class="migration-item"><strong>Keep a backup after the move</strong><span>Schedule recurring Floppy exports and backups so your next move is easier.</span></div></div>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="stack-title">
+        <div class="section-heading"><span class="section-mark" aria-hidden="true">⇄</span><div><p class="eyebrow">Connect the stack</p><h2 id="stack-title">Let your stack keep it current.</h2></div></div>
+        <p class="section-intro">Your tracker is only one piece of the workflow. Floppy can sit beside the media servers, scrobblers, request tools, and automations you already run.</p>
+        <div class="stack-grid">
+          <article class="stack-card featured"><p class="card-kicker">Media servers</p><h3>Plex, Jellyfin, Kodi, and Stremio.</h3><p>Bring media-server activity and library context into the same history. Plex and Jellyfin support live events plus backfill; Kodi’s path is webhook-based. Kodi users can get a bit more functionality through Umbrella.</p><div class="chip-row"><span class="chip">Plex</span><span class="chip">Jellyfin</span><span class="chip">Kodi</span><span class="chip">Stremio</span></div><div class="actions"><a class="text-link" href="../../integrations/">Explore integrations ↗</a></div></article>
+          <article class="stack-card"><p class="card-kicker">Automation</p><h3>An API instead of a dead end.</h3><p>Use the documented REST API, API-key or bearer auth, and MCP server for the automations that make a self-hosted library feel like yours.</p><div class="chip-row"><span class="chip">REST API</span><span class="chip">OpenAPI</span><span class="chip">MCP</span></div><div class="actions"><a class="text-link" href="https://github.com/dannyvfilms/Floppy">Explore the repository ↗</a></div></article>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="honest-title">
+        <div class="section-heading"><span class="section-mark" aria-hidden="true">✦</span><div><p class="eyebrow">A clear fit</p><h2 id="honest-title">A replacement does not have to be a replica.</h2></div></div>
+        <p class="section-intro">If you used Trakt as a database and tracking tool, Floppy is built around that same continuity, with a different home for the data.</p>
+        <div class="honest-grid">
+          <article class="honest-card"><h3>Floppy is for you if…</h3><ul><li>Your watch history has become too valuable to leave in one hosted account.</li><li>You want progress, lists, collection, calendar, and integrations in one place.</li><li>You would rather own a portable copy than hope your workflow survives the next product change.</li></ul></article>
+          <article class="honest-card"><h3>Know what is different.</h3><p>Floppy is a personal, self-hosted media library, not a hosted social network or a promise to reproduce every Trakt screen. The trade is straightforward: more control over your data, with a product that keeps growing around your own media life.</p><div class="actions"><a class="text-link" href="../../compare/yamtrack/">See how Floppy has evolved ↗</a></div></article>
+        </div>
+        <div class="more"><div><p class="card-kicker">And then you get more</p><h3>Go beyond movies and TV.</h3><p>Once the core workflow is in one place, music, podcasts, books, games, collections, stats, and person pages can live alongside it instead of becoming another silo.</p></div><div class="more-list"><div class="more-item"><strong>Listen:</strong> artists, albums, tracks, podcasts</div><div class="more-item"><strong>Read + play:</strong> books, manga, games, board games</div><div class="more-item"><strong>Explore:</strong> filmographies, studios, related works</div></div></div>
+      </section>
+
+      <section class="closing" aria-labelledby="closing-title">
+        <p class="eyebrow">Bring your history home</p>
+        <h2 id="closing-title"><span class="closing-line">Keep the tracking.</span><span class="closing-line">Own the next copy.</span></h2>
+        <p>Start with the system you already understand, then give it a home that belongs on your server.</p>
+        <div class="actions"><a class="button primary" href="https://yamtrack.dannyvfilms.com">Try Floppy</a><a class="button" href="../../">Back to Floppy</a></div>
+      </section>
+    </main>
+
+    <footer><span>Floppy is open source and independently maintained.</span><span><a class="text-link" href="https://github.com/dannyvfilms/Floppy/wiki">Wiki</a> · <a class="text-link" href="https://github.com/dannyvfilms/Floppy/pkgs/container/floppy">Docker image</a></span></footer>
+  </div>
+</body>
+</html>

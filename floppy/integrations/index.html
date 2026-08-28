@@ -75,7 +75,7 @@
       z-index: 5;
       top: calc(100% + 12px);
       right: 0;
-      width: 190px;
+      width: 210px;
       padding: 8px;
       border: 1px solid var(--line);
       border-radius: 14px;
@@ -245,6 +245,10 @@
         <a class="nav-link" href="../features/">Features</a>
         <a class="nav-link" href="./">Integrations</a>
         <details class="nav-menu">
+          <summary class="nav-link">Alternatives <span aria-hidden="true">⌄</span></summary>
+          <div class="nav-popover"><a href="../alternatives/trakt/">Self-hosted Trakt alternative</a><a href="../alternatives/tv-time/">TV Time alternative</a></div>
+        </details>
+        <details class="nav-menu">
           <summary class="nav-link">Compare <span aria-hidden="true">⌄</span></summary>
           <div class="nav-popover"><a href="../compare/yamtrack/">Floppy vs Yamtrack</a></div>
         </details>
@@ -288,7 +292,7 @@
           <article class="integration-card"><div class="card-top"><h3>Emby</h3><div class="badges"><span class="badge live">Live</span></div></div><p class="service-type">Self-hosted media server</p><p>Connect with a per-server webhook link to sync movies and TV as you watch them.</p><p class="detail"><strong>Good to know:</strong> Emby music is not supported.</p></article>
           <article class="integration-card"><div class="card-top"><h3>Kodi</h3><div class="badges"><span class="badge live">Live</span></div></div><p class="service-type">Open-source media player</p><p>A free community add-on sends your movie and TV playback activity to Floppy while you use Kodi on a TV box, computer, or other device.</p><p class="detail"><strong>Connection:</strong> install the community add-on, then let it report playback.</p></article>
           <article class="integration-card"><div class="card-top"><h3>Stremio</h3><div class="badges"><span class="badge live">Live</span><span class="badge scheduled">Scheduled</span></div></div><p class="service-type">Media-center app</p><p>Sign in with Stremio. Floppy marks titles in progress as soon as you press play and syncs finished history automatically every couple of hours.</p><p class="detail"><strong>Connection:</strong> account sign-in; progress is immediate, finished history catches up periodically.</p></article>
-          <article class="integration-card"><div class="card-top"><h3>Seerr</h3><div class="badges"><span class="badge live">Live</span></div></div><p class="service-type">Overseerr / Jellyseerr request tool</p><p>Connect a webhook link and add requested or approved titles to a Floppy list automatically—useful for an “on the way” shelf.</p><p class="detail"><strong>Good to know:</strong> requests are tracked, not watched; shared households are supported.</p></article>
+          <article class="integration-card"><div class="card-top"><h3>Seerr</h3><div class="badges"><span class="badge live">Live</span></div></div><p class="service-type">Overseerr / Jellyseerr request tool</p><p>Connect a webhook link and add requested or approved titles to a Floppy list automatically, useful for an “on the way” shelf.</p><p class="detail"><strong>Good to know:</strong> requests are tracked, not watched; shared households are supported.</p></article>
           <article class="integration-card"><div class="card-top"><h3>Radarr &amp; Sonarr</h3><div class="badges"><span class="badge scheduled">Scheduled</span></div></div><p class="service-type">Library automation tools</p><p>Connect with a server address and API key. Floppy checks in every couple of hours to track which movies and shows you actually own.</p><p class="detail"><strong>Good to know:</strong> this is collection ownership, not watch history.</p></article>
           <article class="integration-card"><div class="card-top"><h3>Trakt</h3><div class="badges"><span class="badge import">Import</span></div></div><p class="service-type">Community watch tracker</p><p>Use a public username or sign in for private profile access. Floppy imports watch history, ratings, watchlists, and custom lists.</p><p class="detail"><strong>Alternative:</strong> upload an offline Trakt export file directly.</p></article>
           <article class="integration-card"><div class="card-top"><h3>MDBList</h3><div class="badges"><span class="badge scheduled">Sync</span><span class="badge import">Import</span></div></div><p class="service-type">Curated movie and TV lists</p><p>Connect with an MDBList API key to import watch history, watchlist, ratings, and lists, with custom lists kept in sync going forward.</p><p class="detail"><strong>Connection:</strong> API key from your MDBList account.</p></article>
@@ -319,7 +323,7 @@
         <div class="integration-grid">
           <article class="integration-card"><div class="card-top"><h3>Last.fm</h3><div class="badges"><span class="badge scheduled">Scheduled</span><span class="badge import">Import</span></div></div><p class="service-type">Music scrobbling service</p><p>Connect with a public username to pull new plays regularly, then optionally backfill your whole listening history.</p><p class="detail"><strong>Good to know:</strong> your Last.fm scrobbles need to be public.</p></article>
           <article class="integration-card"><div class="card-top"><h3>Koito</h3><div class="badges"><span class="badge scheduled">Scheduled</span></div></div><p class="service-type">Self-hosted Last.fm alternative</p><p>Connect your Koito server with an API key. Floppy imports the full history on first connect, then checks every 15 minutes for new plays.</p><p class="detail"><strong>Good to know:</strong> Floppy only reads from Koito; Koito remains the source of truth.</p></article>
-          <article class="integration-card"><div class="card-top"><h3>ListenBrainz-compatible scrobblers</h3><div class="badges"><span class="badge live">Live</span></div></div><p class="service-type">Direct music activity</p><p>Multi-Scrobbler, Navidrome, Feishin, Symfonium, Pano Scrobbler, and other compatible tools can send listens straight to Floppy in real time.</p><p class="detail"><strong>Connection:</strong> point the scrobbler at Floppy with your API token—no import needed.</p></article>
+          <article class="integration-card"><div class="card-top"><h3>ListenBrainz-compatible scrobblers</h3><div class="badges"><span class="badge live">Live</span></div></div><p class="service-type">Direct music activity</p><p>Multi-Scrobbler, Navidrome, Feishin, Symfonium, Pano Scrobbler, and other compatible tools can send listens straight to Floppy in real time.</p><p class="detail"><strong>Connection:</strong> point the scrobbler at Floppy with your API token, with no import needed.</p></article>
         </div>
       </section>
 
@@ -344,7 +348,7 @@
         <p class="section-intro">Bring reading history, audiobook progress, and book metadata into the same personal library. Export-based connections are intentionally simple: your data starts as a file you can keep.</p>
         <div class="integration-grid">
           <article class="integration-card"><div class="card-top"><h3>Audiobookshelf</h3><div class="badges"><span class="badge scheduled">Scheduled</span></div></div><p class="service-type">Self-hosted audiobook and podcast server</p><p>Use the same server address and API token connection to sync audiobook reading progress into Floppy.</p><p class="detail"><strong>See also:</strong> podcast listening is supported through the same integration.</p></article>
-          <article class="integration-card"><div class="card-top"><h3>Storyteller</h3><div class="badges"><span class="badge scheduled">Scheduled</span></div></div><p class="service-type">Self-hosted audiobook and ebook server</p><p>Approve a code on your Storyteller server—no password to type into Floppy. Floppy checks in every couple of hours.</p><p class="detail"><strong>Progress:</strong> books are marked read after enough progress is recorded.</p></article>
+          <article class="integration-card"><div class="card-top"><h3>Storyteller</h3><div class="badges"><span class="badge scheduled">Scheduled</span></div></div><p class="service-type">Self-hosted audiobook and ebook server</p><p>Approve a code on your Storyteller server, with no password to type into Floppy. Floppy checks in every couple of hours.</p><p class="detail"><strong>Progress:</strong> books are marked read after enough progress is recorded.</p></article>
           <article class="integration-card"><div class="card-top"><h3>Goodreads</h3><div class="badges"><span class="badge import">One-time import</span></div></div><p class="service-type">Book-tracking and social reading site</p><p>Export your Goodreads library and upload it to bring your reading history into Floppy.</p><p class="detail"><strong>Connection:</strong> file upload; your export remains yours.</p></article>
           <article class="integration-card"><div class="card-top"><h3>The StoryGraph</h3><div class="badges"><span class="badge import">One-time import</span></div></div><p class="service-type">Reading tracker focused on stats and moods</p><p>Export your StoryGraph data and upload it to bring your history into Floppy.</p><p class="detail"><strong>Connection:</strong> file upload.</p></article>
           <article class="integration-card"><div class="card-top"><h3>Hardcover</h3><div class="badges"><span class="badge import">One-time import</span></div></div><p class="service-type">Modern book-tracking community</p><p>Export and upload your Hardcover data. An API key is optional when you want richer book details.</p><p class="detail"><strong>Connection:</strong> file upload, with optional API key.</p></article>
@@ -356,7 +360,7 @@
           <span class="section-mark" aria-hidden="true">⌁</span>
           <div><p class="eyebrow">Games</p><h2 id="games-title">Track the backlog you actually play.</h2></div>
         </div>
-        <p class="section-intro">Game integrations focus on play history, hours, and backlog context—the parts of a gaming life that are easiest to lose across storefronts and consoles.</p>
+        <p class="section-intro">Game integrations focus on play history, hours, and backlog context, the parts of a gaming life that are easiest to lose across storefronts and consoles.</p>
         <div class="integration-grid">
           <article class="integration-card"><div class="card-top"><h3>Steam</h3><div class="badges"><span class="badge scheduled">Sync</span></div></div><p class="service-type">PC gaming storefront</p><p>Connect with your public Steam ID. Floppy tracks what you have played, how long you played, and adjusts planning, playing, or on-hold status from actual playtime.</p><p class="detail"><strong>Connection:</strong> public Steam ID.</p></article>
           <article class="integration-card"><div class="card-top"><h3>Xbox</h3><div class="badges"><span class="badge import">Import</span></div></div><p class="service-type">Microsoft gaming ecosystem</p><p>Connect with a free key from a companion sign-in service to import played games and hours logged.</p><p class="detail"><strong>Good to know:</strong> played games only; not your full library, and hours are not available for every game.</p></article>
@@ -394,7 +398,7 @@
       <section class="closing" aria-labelledby="closing-title">
         <p class="eyebrow">Bring your media life together</p>
         <h2 id="closing-title">Start with the services you already trust.</h2>
-        <p>Floppy is most useful when it meets you where your history already lives—then gives all of it a home you can run, inspect, and take with you.</p>
+        <p>Floppy is most useful when it meets you where your history already lives, then gives all of it a home you can run, inspect, and take with you.</p>
         <div class="actions"><a class="button primary" href="https://yamtrack.dannyvfilms.com">Try Floppy</a><a class="button" href="../">Back to Floppy</a></div>
       </section>
     </main>
