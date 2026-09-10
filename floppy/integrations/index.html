@@ -63,13 +63,17 @@
     .home-link { display: inline-flex; align-items: center; gap: 10px; white-space: nowrap; }
     .home-link img { width: 38px; height: 38px; object-fit: cover; border-radius: 11px; }
     .top-nav { display: flex; align-items: center; justify-content: flex-end; gap: 22px; }
+    .mobile-nav { margin-left: auto; }
+    .mobile-nav > summary { display: none; }
+    .mobile-nav > .top-nav { display: flex; }
     .nav-link { color: var(--muted); }
     .nav-link:hover, .nav-link:focus-visible { color: var(--text); }
-    .nav-menu { position: relative; }
-    .nav-menu summary { cursor: pointer; list-style: none; }
+    .nav-menu { position: relative; border: 0; }
+    .nav-menu summary { display: inline-flex; align-items: center; gap: 5px; cursor: pointer; list-style: none; padding: 0; position: static; font-size: inherit; font-weight: 850; }
     .nav-menu summary::-webkit-details-marker { display: none; }
-    .nav-menu summary span { display: inline-block; margin-left: 3px; color: #d0b9ff; transition: transform .16s ease; }
-    .nav-menu[open] summary span { transform: rotate(180deg); }
+    .nav-menu summary::after { content: none; }
+    .nav-menu summary span { display: block; flex: 0 0 .55rem; width: .55rem; height: .55rem; margin-left: 0; border-right: .11rem solid currentColor; border-bottom: .11rem solid currentColor; color: #d0b9ff; font-size: 0; line-height: 0; transform: rotate(45deg); transform-origin: center; transition: transform .16s ease; }
+    .nav-menu[open] summary span { transform: rotate(225deg); }
     .nav-popover {
       position: absolute;
       z-index: 5;
@@ -215,6 +219,13 @@
     footer { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; padding: 34px 0 46px; color: #8f89aa; font-size: .92rem; }
     .text-link { color: #d8c6ff; font-weight: 850; text-underline-offset: 4px; }
 
+    @media (max-width: 760px) {
+      header { flex-direction: column; align-items: stretch; gap: 16px; }
+      .top-nav { width: 100%; justify-content: flex-start; flex-wrap: wrap; gap: 4px 12px; }
+      .top-nav > .nav-link { display: inline-flex; align-items: center; min-height: 44px; }
+      .top-nav > .nav-menu > summary { min-height: 44px; }
+    }
+
     @media (max-width: 920px) {
       .integration-grid { grid-template-columns: repeat(2, 1fr); }
       .self-hosted { grid-template-columns: 1fr; }
@@ -223,8 +234,8 @@
 
     @media (max-width: 650px) {
       .shell { width: min(100% - 28px, 1120px); }
-      header { align-items: flex-start; }
-      .top-nav { flex-wrap: wrap; gap: 8px 14px; }
+      header { align-items: stretch; }
+      .top-nav { gap: 4px 12px; }
       .nav-popover { right: -8px; }
       .hero { padding-top: 42px; }
       .answer-card { grid-template-columns: 1fr; padding: 22px; }
@@ -235,25 +246,43 @@
       .integration-card { min-height: auto; }
       .closing { padding-top: 72px; }
     }
+    @media (max-width: 760px) {
+      header { flex-direction: row; align-items: center; gap: 16px; }
+      .mobile-nav { position: relative; }
+      .mobile-nav > summary { display: inline-flex; align-items: center; gap: 9px; min-height: 44px; padding: 0 4px 0 12px; border: 1px solid var(--line); border-radius: 999px; color: var(--text); cursor: pointer; list-style: none; }
+      .mobile-nav > summary::-webkit-details-marker { display: none; }
+      .mobile-nav > summary::marker { content: none; }
+      .mobile-nav-icon { position: relative; display: block; width: 16px; height: 12px; border-top: 2px solid currentColor; border-bottom: 2px solid currentColor; }
+      .mobile-nav-icon::after { content: ''; position: absolute; top: 3px; left: 0; width: 16px; border-top: 2px solid currentColor; }
+      .mobile-nav:not([open]) > .top-nav { display: none; }
+      .mobile-nav[open] > .top-nav { position: absolute; z-index: 10; top: calc(100% + 12px); right: 0; display: flex; flex-direction: column; align-items: stretch; justify-content: flex-start; gap: 0; width: min(280px, calc(100vw - 36px)); padding: 8px; border: 1px solid var(--line); border-radius: 14px; background: rgba(18, 16, 49, .98); box-shadow: var(--shadow); box-sizing: border-box; }
+      .mobile-nav[open] > .top-nav > .nav-link,
+      .mobile-nav[open] > .top-nav > .nav-menu > summary { display: flex; align-items: center; width: 100%; min-height: 44px; padding: 10px; box-sizing: border-box; }
+      .mobile-nav[open] > .top-nav > .nav-menu { position: static; }
+      .mobile-nav[open] .nav-popover { position: static; width: auto; margin: 0 0 4px; box-shadow: none; }
+    }
   </style>
 </head>
 <body>
   <div class="shell">
     <header>
       <a class="home-link" href="../"><img src="../../assets/floppy-icon.png" alt="">Floppy</a>
-      <nav class="top-nav" aria-label="Primary navigation">
+      <details class="mobile-nav">
+        <summary class="mobile-nav-toggle"><span>Menu</span><span class="mobile-nav-icon" aria-hidden="true"></span></summary>
+        <nav class="top-nav" aria-label="Primary navigation">
         <a class="nav-link" href="../features/">Features</a>
         <a class="nav-link" href="./">Integrations</a>
         <details class="nav-menu">
-          <summary class="nav-link">Alternatives <span aria-hidden="true">⌄</span></summary>
+          <summary class="nav-link" aria-label="Alternatives">Alternatives <span aria-hidden="true">⌄</span></summary>
           <div class="nav-popover"><a href="../alternatives/trakt/">Trakt</a><a href="../alternatives/tv-time/">TV Time</a></div>
         </details>
         <details class="nav-menu">
-          <summary class="nav-link">Compare <span aria-hidden="true">⌄</span></summary>
+          <summary class="nav-link" aria-label="Compare">Compare <span aria-hidden="true">⌄</span></summary>
           <div class="nav-popover"><a href="../compare/yamtrack/">Yamtrack</a><a href="../compare/scrob/">Scrob</a></div>
         </details>
         <a class="nav-link" href="https://github.com/dannyvfilms/Floppy">GitHub ↗</a>
-      </nav>
+        </nav>
+      </details>
     </header>
 
     <main>
