@@ -185,6 +185,9 @@
       border-radius: 20px;
       background: rgba(18, 16, 49, .72);
     }
+    .integration-card-link { color: inherit; text-decoration: none; transition: transform .16s ease, border-color .16s ease, background .16s ease; }
+    .integration-card-link:hover, .integration-card-link:focus-visible { transform: translateY(-3px); border-color: rgba(202, 181, 255, .64); background: rgba(25, 22, 64, .92); }
+    .integration-card-link:focus-visible { outline: 3px solid var(--cyan); outline-offset: 4px; }
     .integration-card h3 { margin: 0; font-size: 1.34rem; letter-spacing: -.03em; line-height: 1.15; }
     .card-top { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 10px; }
     .badges { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 6px; }
@@ -316,7 +319,7 @@
         </div>
         <p class="section-intro">Connect a personal media server, a request tool, a library automation service, or a tracking site. Floppy keeps the distinction between watching something, owning it, requesting it, and simply wanting to remember it.</p>
         <div class="integration-grid">
-          <article class="integration-card"><div class="card-top"><h3>Plex</h3><div class="badges"><span class="badge live">Live</span><span class="badge import">Import</span></div></div><p class="service-type">Personal media server</p><p>One-click Plex sign-in connects your server without typing a password into Floppy. Live playback can show on your home screen, mark titles watched, import existing history, and mirror your Watchlist.</p><p class="detail"><strong>Good to know:</strong> Plex Pass is required for live sync; history import works for everyone.</p></article>
+          <a class="integration-card integration-card-link" href="plex/"><div class="card-top"><h3>Plex <span aria-hidden="true">↗</span></h3><div class="badges"><span class="badge live">Live</span><span class="badge import">Import</span></div></div><p class="service-type">Personal media server</p><p>One-click Plex sign-in connects your server without typing a password into Floppy. Live playback can show on your home screen, mark titles watched, import existing history, and mirror your Watchlist.</p><p class="detail"><strong>Explore the Plex integration:</strong> imports, webhooks, Watchlist sync, music, audiobooks, and more.</p></a>
           <article class="integration-card"><div class="card-top"><h3>Jellyfin</h3><div class="badges"><span class="badge live">Live</span><span class="badge import">Import</span></div></div><p class="service-type">Free, open-source media server</p><p>Connect with your server address and an API key. Floppy syncs playback in real time, can push watched status back to Jellyfin, and can backfill built-in playback history.</p><p class="detail"><strong>Connection:</strong> two-way watched-status sync keeps both sides aligned.</p></article>
           <article class="integration-card"><div class="card-top"><h3>Emby</h3><div class="badges"><span class="badge live">Live</span></div></div><p class="service-type">Self-hosted media server</p><p>Connect with a per-server webhook link to sync movies and TV as you watch them.</p><p class="detail"><strong>Good to know:</strong> Emby music is not supported.</p></article>
           <article class="integration-card"><div class="card-top"><h3>Kodi</h3><div class="badges"><span class="badge live">Live</span></div></div><p class="service-type">Open-source media player</p><p>A free community add-on sends your movie and TV playback activity to Floppy while you use Kodi on a TV box, computer, or other device.</p><p class="detail"><strong>Connection:</strong> install the community add-on, then let it report playback.</p></article>
