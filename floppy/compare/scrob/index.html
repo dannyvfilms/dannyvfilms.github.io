@@ -1,0 +1,419 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#07061b">
+  <meta name="description" content="Floppy vs Scrob: a category-by-category comparison of media scope, live scrobbling, synchronization, progress, collections, lists, integrations, and self-hosting.">
+  <link rel="canonical" href="https://dannyvfilms.github.io/floppy/compare/scrob/">
+  <meta property="og:title" content="Floppy vs Scrob: Category-by-category comparison">
+  <meta property="og:description" content="Scrob goes deeper on movie and TV watching, synchronization, and social features. Floppy covers more of the media you actually keep track of.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://dannyvfilms.github.io/floppy/compare/scrob/">
+  <meta property="og:image" content="https://dannyvfilms.github.io/assets/floppy-banner.webp">
+  <meta name="twitter:card" content="summary_large_image">
+  <title>Floppy vs Scrob: Category-by-category comparison</title>
+  <link rel="icon" href="../../../assets/floppy-icon.png">
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #07061b;
+      --surface: #121031;
+      --surface-2: #181540;
+      --line: rgba(144, 115, 255, .24);
+      --line-soft: rgba(151, 122, 255, .15);
+      --text: #fbfaff;
+      --muted: #bbb6d4;
+      --muted-2: #918bab;
+      --purple: #b05cff;
+      --cyan: #24d7ff;
+      --orange: #ff9d20;
+      --shadow: 0 28px 90px rgba(0, 0, 0, .42);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      overflow-x: hidden;
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 15% 8%, rgba(71, 42, 183, .28), transparent 31rem),
+        radial-gradient(circle at 88% 35%, rgba(11, 169, 218, .12), transparent 32rem),
+        var(--bg);
+      line-height: 1.65;
+    }
+
+    a { color: inherit; }
+    .shell { width: min(1120px, calc(100% - 36px)); margin: 0 auto; }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      padding: 22px 0;
+    }
+
+    .home-link, .nav-link { text-decoration: none; font-weight: 850; }
+    .home-link { display: inline-flex; align-items: center; gap: 10px; white-space: nowrap; }
+    .home-link img { width: 38px; height: 38px; object-fit: cover; border-radius: 11px; }
+    .top-nav { display: flex; align-items: center; justify-content: flex-end; gap: 22px; }
+    .nav-link { color: var(--muted); }
+    .nav-link:hover, .nav-link:focus-visible { color: var(--text); }
+    .nav-menu { position: relative; }
+    .nav-menu summary { cursor: pointer; list-style: none; }
+    .nav-menu summary::-webkit-details-marker { display: none; }
+    .nav-menu summary span { display: inline-block; margin-left: 3px; color: #d0b9ff; transition: transform .16s ease; }
+    .nav-menu[open] summary span { transform: rotate(180deg); }
+    .nav-popover {
+      position: absolute;
+      z-index: 5;
+      top: calc(100% + 12px);
+      right: 0;
+      width: 220px;
+      padding: 8px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: rgba(18, 16, 49, .98);
+      box-shadow: var(--shadow);
+    }
+    .nav-popover a { display: block; padding: 9px 10px; border-radius: 9px; color: var(--muted); text-decoration: none; font-size: .94rem; }
+    .nav-popover a:hover, .nav-popover a:focus-visible { background: rgba(176, 92, 255, .14); color: var(--text); }
+    :where(a, summary):focus-visible { outline: 3px solid var(--cyan); outline-offset: 4px; border-radius: 6px; }
+
+    .hero { padding: 72px 0 70px; }
+    .eyebrow {
+      margin: 0 0 14px;
+      color: #d0b9ff;
+      font-size: .78rem;
+      font-weight: 950;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+    }
+    h1, h2, h3, p { overflow-wrap: anywhere; }
+    h1 {
+      max-width: 980px;
+      margin: 0;
+      font-size: clamp(3rem, 7vw, 6.7rem);
+      line-height: .9;
+      letter-spacing: -.075em;
+    }
+    .hero-copy { max-width: 850px; margin: 28px 0 0; color: var(--muted); font-size: clamp(1.08rem, 2vw, 1.3rem); }
+
+    .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 0 21px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      text-decoration: none;
+      font-weight: 900;
+      transition: transform .16s ease, border-color .16s ease;
+    }
+    .button:hover { transform: translateY(-2px); border-color: rgba(202, 181, 255, .64); }
+    .button.primary { color: #090820; border: 0; background: linear-gradient(105deg, var(--orange), #ffe240, #71e000, var(--cyan), var(--purple)); }
+
+    .answer-card {
+      display: grid;
+      grid-template-columns: 54px minmax(0, 1fr);
+      gap: 20px;
+      align-items: start;
+      margin-top: 56px;
+      padding: clamp(24px, 5vw, 42px);
+      border: 1px solid var(--line);
+      border-radius: 26px;
+      background: linear-gradient(140deg, rgba(27, 24, 69, .96), rgba(10, 9, 34, .96));
+      box-shadow: var(--shadow);
+    }
+    .answer-mark, .section-mark {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 54px;
+      height: 54px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: linear-gradient(145deg, rgba(176, 92, 255, .3), rgba(36, 215, 255, .15));
+      color: #f0ddff;
+      font-size: 1.6rem;
+      font-weight: 900;
+    }
+    .answer-card h2 { margin: 0 0 8px; font-size: clamp(1.5rem, 3vw, 2.1rem); letter-spacing: -.035em; }
+    .answer-card p { max-width: 800px; margin: 0; color: var(--muted); }
+
+    .section { padding: 84px 0; border-top: 1px solid var(--line-soft); }
+    .section-heading { display: grid; grid-template-columns: 54px minmax(0, 1fr); gap: 18px; align-items: start; }
+    .section-mark { width: 46px; height: 46px; border-radius: 13px; font-size: 1.15rem; }
+    .section h2 { margin: 0; font-size: clamp(2.25rem, 5.5vw, 4.2rem); letter-spacing: -.06em; line-height: .96; }
+    .section-intro { max-width: 880px; margin: 20px 0 0 72px; color: var(--muted); font-size: 1.08rem; }
+
+    .comparison-wrap {
+      margin-top: 44px;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: rgba(18, 16, 49, .72);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    .comparison-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+    .comparison-table caption { padding: 22px 24px; color: #f0ddff; font-size: 1rem; font-weight: 850; text-align: left; }
+    .comparison-table thead { background: rgba(7, 6, 27, .5); }
+    .comparison-table th, .comparison-table td { padding: 22px 23px; text-align: left; vertical-align: top; }
+    .comparison-table thead th { color: #f0ddff; font-size: .8rem; letter-spacing: .12em; text-transform: uppercase; }
+    .comparison-table thead th:first-child { width: 22%; color: var(--muted-2); }
+    .comparison-table thead th:nth-child(2) { width: 39%; }
+    .comparison-table thead th:nth-child(3) { width: 39%; }
+    .comparison-table tbody tr { border-top: 1px solid var(--line-soft); }
+    .comparison-table tbody th { color: var(--text); font-size: 1.03rem; line-height: 1.3; }
+    .comparison-table tbody td { color: var(--muted); font-size: .98rem; line-height: 1.58; }
+    .comparison-table tbody td + td, .comparison-table thead th + th { border-left: 1px solid var(--line-soft); }
+    .comparison-table tbody th { background: rgba(7, 6, 27, .15); }
+    .comparison-table td strong { color: #f0ddff; }
+    .comparison-table .cell-label { display: none; }
+    .comparison-table tr:hover td, .comparison-table tr:hover th { background: rgba(176, 92, 255, .045); }
+
+    .note {
+      display: grid;
+      grid-template-columns: 46px minmax(0, 1fr);
+      gap: 18px;
+      align-items: start;
+      margin-top: 28px;
+      padding: 24px;
+      border: 1px solid var(--line-soft);
+      border-radius: 20px;
+      background: rgba(18, 16, 49, .56);
+    }
+    .note-mark { display: inline-flex; align-items: center; justify-content: center; width: 42px; height: 42px; border-radius: 12px; background: rgba(36, 215, 255, .1); color: var(--cyan); font-weight: 900; }
+    .note h3 { margin: 0 0 6px; font-size: 1.1rem; }
+    .note p { max-width: 850px; margin: 0; color: var(--muted); }
+
+    .fit-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-top: 42px; }
+    .fit-card { padding: 28px; border: 1px solid var(--line-soft); border-radius: 22px; background: rgba(18, 16, 49, .72); }
+    .fit-card.floppy { border-color: rgba(36, 215, 255, .42); background: linear-gradient(140deg, rgba(43, 26, 80, .95), rgba(12, 31, 57, .9)); }
+    .fit-card h3 { margin: 0 0 9px; font-size: 1.45rem; letter-spacing: -.035em; }
+    .fit-card p { margin: 0; color: var(--muted); }
+
+    .closing { padding: 92px 0 70px; text-align: center; }
+    .closing h2 { max-width: 850px; margin: 0 auto; font-size: clamp(2.4rem, 6vw, 5rem); letter-spacing: -.07em; line-height: .94; }
+    .closing p { max-width: 730px; margin: 22px auto 0; color: var(--muted); font-size: 1.08rem; }
+    .closing .actions { justify-content: center; }
+
+    footer { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; padding: 34px 0 46px; color: #8f89aa; font-size: .92rem; }
+    .text-link { color: #d8c6ff; font-weight: 850; text-underline-offset: 4px; }
+
+    @media (max-width: 700px) {
+      .shell { width: min(100% - 28px, 1120px); }
+      header { align-items: flex-start; }
+      .top-nav { flex-wrap: wrap; gap: 8px 14px; }
+      .nav-popover { right: -8px; }
+      .hero { padding-top: 42px; }
+      .answer-card, .note { grid-template-columns: 1fr; padding: 22px; }
+      .section { padding: 68px 0; }
+      .section-heading { grid-template-columns: 1fr; gap: 14px; }
+      .section-intro { margin-left: 0; }
+      .comparison-wrap { border-radius: 20px; }
+      .comparison-table, .comparison-table thead, .comparison-table tbody, .comparison-table th, .comparison-table td, .comparison-table tr { display: block; }
+      .comparison-table thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; }
+      .comparison-table caption { display: block; width: 100%; padding: 18px 18px; }
+      .comparison-table tbody tr { padding: 21px 18px; }
+      .comparison-table tbody th { padding: 0 0 12px; background: transparent; font-size: 1.12rem; }
+      .comparison-table tbody td { padding: 11px 0 0 18px; border: 0; font-size: 1rem; }
+      .comparison-table tbody td + td { border-left: 0; }
+      .comparison-table .cell-label { display: block; margin-bottom: 3px; color: #f0ddff; font-size: .76rem; font-weight: 950; letter-spacing: .12em; text-transform: uppercase; }
+      .comparison-table tr:hover td, .comparison-table tr:hover th { background: transparent; }
+      .fit-grid { grid-template-columns: 1fr; }
+      .closing { padding-top: 72px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header>
+      <a class="home-link" href="../../"><img src="../../../assets/floppy-icon.png" alt="">Back to Floppy</a>
+      <nav class="top-nav" aria-label="Primary navigation">
+        <a class="nav-link" href="../../features/">Features</a>
+        <a class="nav-link" href="../../integrations/">Integrations</a>
+        <details class="nav-menu">
+          <summary class="nav-link">Alternatives <span aria-hidden="true">⌄</span></summary>
+          <div class="nav-popover"><a href="../../alternatives/trakt/">Trakt</a><a href="../../alternatives/tv-time/">TV Time</a></div>
+        </details>
+        <details class="nav-menu">
+          <summary class="nav-link">Compare <span aria-hidden="true">⌄</span></summary>
+          <div class="nav-popover"><a href="../yamtrack/">Yamtrack</a><a href="./">Scrob</a></div>
+        </details>
+        <a class="nav-link" href="https://github.com/dannyvfilms/Floppy">GitHub ↗</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <p class="eyebrow">Floppy vs Scrob</p>
+        <h1>A category-by-category comparison.</h1>
+        <p class="hero-copy">Both products can track movies and shows. They are optimized for different jobs around that record: Floppy is a broad personal-media system, while Scrob is a focused movie and TV watching, synchronization, and social hub.</p>
+        <div class="actions">
+          <a class="button primary" href="../../">Explore Floppy</a>
+          <a class="button" href="../../features/">See Floppy's features</a>
+        </div>
+
+        <div class="answer-card">
+          <span class="answer-mark" aria-hidden="true">→</span>
+          <div>
+            <h2>The short version.</h2>
+            <p>Choose Scrob when movie and TV watching is the center of your setup and you want a finished live-scrobbling and cross-service sync workflow. Choose Floppy when your history crosses media types and you want one place for tracking, ownership, lists, discovery, statistics, imports, and integrations.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="comparison-title">
+        <div class="section-heading"><span class="section-mark" aria-hidden="true">▦</span><div><p class="eyebrow">The comparison</p><h2 id="comparison-title">What each product does in each category.</h2></div></div>
+        <p class="section-intro">The table is the main page. Each row covers one category from the functional comparison, with the practical difference stated in plain language.</p>
+
+        <div class="comparison-wrap">
+          <table class="comparison-table">
+            <caption>Floppy and Scrob, category by category</caption>
+            <thead>
+              <tr><th scope="col">Category</th><th scope="col">Floppy</th><th scope="col">Scrob</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">Product model</th>
+                <td><span class="cell-label">Floppy</span>A personal media database: track what you watch, read, play, listen to, and own in one library and history.</td>
+                <td><span class="cell-label">Scrob</span>A movie and TV watching system centered on TMDB titles, shows, seasons, and episodes.</td>
+              </tr>
+              <tr>
+                <th scope="row">Manual live scrobbling</th>
+                <td><span class="cell-label">Floppy</span>Supports detailed history and playback-driven activity, but does not currently offer the same first-party Start, Pause, Resume, and Stop session flow.</td>
+                <td><span class="cell-label">Scrob</span>Start a live movie or episode session, pause it, resume it, stop it, or complete it from the title page.</td>
+              </tr>
+              <tr>
+                <th scope="row">Watched-state synchronization</th>
+                <td><span class="cell-label">Floppy</span>Has a provider-neutral watched-state model, change log, conflict handling, checkpoints, and delivery records; provider write coverage varies by integration.</td>
+                <td><span class="cell-label">Scrob</span>Has the more complete operational sync story today, with watched state, progress, ratings, and related changes moving between connected services.</td>
+              </tr>
+              <tr>
+                <th scope="row">Playback ecosystem</th>
+                <td><span class="cell-label">Floppy</span>Connects to Plex, Jellyfin, and Emby, with Kodi, Stremio, and Nuvio-facing platform work. Some client workflows and write directions are still being verified.</td>
+                <td><span class="cell-label">Scrob</span>Ships a broader finished movie/TV playback and sync ecosystem across Plex, Jellyfin, Emby, Kodi, Stremio, Nuvio, and ARVIO.</td>
+              </tr>
+              <tr>
+                <th scope="row">Requests and acquisition automation</th>
+                <td><span class="cell-label">Floppy</span>Supports scheduled Radarr/Sonarr library synchronization and Seerr webhook additions; no equivalent first-party request action from a title page.</td>
+                <td><span class="cell-label">Scrob</span>Add movies and shows to Radarr or Sonarr from Scrob, and automate requests from Plex watchlists, including selected other users’ watchlists.</td>
+              </tr>
+              <tr>
+                <th scope="row">Social functionality</th>
+                <td><span class="cell-label">Floppy</span>Public profiles, shared lists, RSS/JSON feeds, and recommendation workflows make media shareable, but there is no follower graph or title discussion layer.</td>
+                <td><span class="cell-label">Scrob</span>Follow users, see activity, and comment on movies, shows, seasons, and episodes inside the tracker.</td>
+              </tr>
+              <tr>
+                <th scope="row">Non-movie/TV depth</th>
+                <td><span class="cell-label">Floppy</span>Native support for anime, manga, books, comics, games, board games, music, and podcasts alongside movies and television.</td>
+                <td><span class="cell-label">Scrob</span>Intentionally stays focused on movies and television rather than modeling separate media domains.</td>
+              </tr>
+              <tr>
+                <th scope="row">Lists</th>
+                <td><span class="cell-label">Floppy</span>Public/private lists, custom slugs, smart rules, rich sorting, completion data, RSS/JSON feeds, and recommendation approval.</td>
+                <td><span class="cell-label">Scrob</span>Personal and public lists for movies and shows, designed for straightforward curation rather than rule-driven library views.</td>
+              </tr>
+              <tr>
+                <th scope="row">Discovery</th>
+                <td><span class="cell-label">Floppy</span>Personalized rows based on genre, studio, cast, authors, and tags, with persistent hide or not-interested feedback across media types.</td>
+                <td><span class="cell-label">Scrob</span>Movie/TV pickers, trending titles, Airing Today, and streaming-aware suggestions answer the immediate “what should I watch?” question.</td>
+              </tr>
+              <tr>
+                <th scope="row">Structured progress</th>
+                <td><span class="cell-label">Floppy</span>Progress and time-left behavior across TV, anime, books, and other media, plus ordered progress changes for external clients.</td>
+                <td><span class="cell-label">Scrob</span>A dedicated Progress page with Watched and Collection tabs, progress/remaining sorting, complete-series hiding, and separate watched versus collected totals.</td>
+              </tr>
+              <tr>
+                <th scope="row">Collections</th>
+                <td><span class="cell-label">Floppy</span>Owned copies across media with source, format, resolution, HDR, codec, bitrate, and adaptable imported custom fields that can feed filters and smart lists.</td>
+                <td><span class="cell-label">Scrob</span>Per-file collection records for connected libraries, including technical details such as codec, channels, languages, subtitles, and paths; ownership is centered on movies and episodes.</td>
+              </tr>
+              <tr>
+                <th scope="row">History and statistics</th>
+                <td><span class="cell-label">Floppy</span>Cross-media history and statistics for watching, reading, listening, and playing, with filters, comparisons, reading streaks, listening time, and duplicate-play cleanup.</td>
+                <td><span class="cell-label">Scrob</span>Mature movie/TV watch history with multiple plays, timestamps, rewatches, ratings, flexible statistics, and history search.</td>
+              </tr>
+              <tr>
+                <th scope="row">Calendars and notifications</th>
+                <td><span class="cell-label">Floppy</span>A broader release calendar with iCalendar feeds and Apprise-based notifications across the media system.</td>
+                <td><span class="cell-label">Scrob</span>A focused episode calendar plus detailed theatrical, digital, and physical release schedules for movies.</td>
+              </tr>
+              <tr>
+                <th scope="row">PWA and mobile use</th>
+                <td><span class="cell-label">Floppy</span>Installable as a standalone web app, with mobile-aware layouts and controls.</td>
+                <td><span class="cell-label">Scrob</span>Installable as a standalone web app on mobile and desktop.</td>
+              </tr>
+              <tr>
+                <th scope="row">API and extensibility</th>
+                <td><span class="cell-label">Floppy</span>REST, MCP, scoped application credentials, watched/progress feeds, idempotent operations, diagnostics, and published integration contracts.</td>
+                <td><span class="cell-label">Scrob</span>FastAPI with interactive OpenAPI documentation through Swagger and ReDoc; a clear conventional REST developer surface.</td>
+              </tr>
+              <tr>
+                <th scope="row">Backup and export</th>
+                <td><span class="cell-label">Floppy</span>Scheduled recurring CSV exports plus raw database snapshots for ongoing disaster recovery.</td>
+                <td><span class="cell-label">Scrob</span>A portable application-level export that can be reimported for migration or restore.</td>
+              </tr>
+              <tr>
+                <th scope="row">Imports and migration</th>
+                <td><span class="cell-label">Floppy</span>Broader import ecosystems, including collector and reading workflows, with dynamic field resolution that preserves unfamiliar source columns.</td>
+                <td><span class="cell-label">Scrob</span>Can import Floppy/Yamtrack data, but only movie, show, season, and episode records that fit Scrob’s narrower schema are retained.</td>
+              </tr>
+              <tr>
+                <th scope="row">Installation and deployment</th>
+                <td><span class="cell-label">Floppy</span>A guided installer can configure Docker or native deployments; the usual stack is the app plus Redis, with SQLite or PostgreSQL.</td>
+                <td><span class="cell-label">Scrob</span>PostgreSQL-based, with an omnibus image that packages the application and database into a simpler appliance-style deployment.</td>
+              </tr>
+              <tr>
+                <th scope="row">Metadata and anime</th>
+                <td><span class="cell-label">Floppy</span>Provider abstraction across many media types, with dedicated anime identity, provider preferences, and franchise/group routing.</td>
+                <td><span class="cell-label">Scrob</span>Strong TMDB metadata with TVDB matching support, but no separate anime or manga domain model.</td>
+              </tr>
+              <tr>
+                <th scope="row">Customization and organization</th>
+                <td><span class="cell-label">Floppy</span>Configurable home rows, table columns, sorting, filtering, smart lists, collection schemas, and media-specific views.</td>
+                <td><span class="cell-label">Scrob</span>A tighter movie/TV product with fewer organizational dimensions and a more focused interface.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="note">
+          <span class="note-mark" aria-hidden="true">i</span>
+          <div><h3>One important qualification</h3><p>Floppy’s synchronization and external-client work is broader than it used to be, but not every provider has the same verified read/write coverage yet. Scrob’s advantage is finished movie/TV synchronization coverage today; Floppy’s advantage is the larger platform around more kinds of media and workflows.</p></div>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="fit-title">
+        <div class="section-heading"><span class="section-mark" aria-hidden="true">⌂</span><div><p class="eyebrow">Choose by priority</p><h2 id="fit-title">Which set of trade-offs sounds like yours?</h2></div></div>
+        <p class="section-intro">There is no need to pretend the products are interchangeable. Start with the job you want the system to do most reliably.</p>
+        <div class="fit-grid">
+          <article class="fit-card floppy"><p class="eyebrow">Choose Floppy when…</p><h3>Your media life is larger than your watch history.</h3><p>You want one self-hosted home for movies, shows, anime, books, games, music, podcasts, ownership, lists, discovery, statistics, imports, and the tools you build around them.</p></article>
+          <article class="fit-card"><p class="eyebrow">Choose Scrob when…</p><h3>Your watching system is the product.</h3><p>You care most about movie/TV progress, manual live sessions, finished cross-service synchronization, direct Radarr/Sonarr requests, and social activity around what you watch.</p></article>
+        </div>
+      </section>
+
+      <section class="closing" aria-labelledby="closing-title">
+        <p class="eyebrow">Bottom line</p>
+        <h2 id="closing-title">Pick the system that matches the question you ask most often.</h2>
+        <p>“What am I watching, where am I watching it, and how should the other services know?” points toward Scrob. “What have I watched, read, played, listened to, and kept—and what should I do with that history?” points toward Floppy.</p>
+        <div class="actions">
+          <a class="button primary" href="../../">Explore Floppy</a>
+          <a class="button" href="https://github.com/dannyvfilms/Floppy">Read the source</a>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <span>Floppy is open source and independently maintained.</span>
+      <span><a class="text-link" href="../../">Floppy home</a> · <a class="text-link" href="https://github.com/dannyvfilms/Floppy/wiki">Wiki</a></span>
+    </footer>
+  </div>
+</body>
+</html>
