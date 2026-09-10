@@ -135,7 +135,8 @@
     .stack-card, .honest-card { padding: clamp(24px, 4vw, 34px); border: 1px solid var(--line-soft); border-radius: 23px; background: rgba(18, 16, 49, .72); }
     .stack-card.featured { border-color: rgba(36, 215, 255, .38); background: linear-gradient(140deg, rgba(28, 31, 81, .94), rgba(10, 31, 53, .82)); }
     .chip-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
-    .chip { padding: 7px 11px; border: 1px solid var(--line); border-radius: 999px; color: #e9dcff; background: rgba(176, 92, 255, .1); font-size: .86rem; font-weight: 850; }
+    .chip { padding: 7px 11px; border: 1px solid var(--line); border-radius: 999px; color: #e9dcff; background: rgba(176, 92, 255, .1); font-size: .86rem; font-weight: 850; text-decoration: none; }
+    .chip:hover, .chip:focus-visible { border-color: rgba(202, 181, 255, .64); color: var(--text); }
     .honest-card ul { margin: 18px 0 0; padding-left: 1.2rem; color: var(--muted); }
     .honest-card li + li { margin-top: 8px; }
     .text-link { color: #d8c6ff; font-weight: 850; text-underline-offset: 4px; }
@@ -275,7 +276,7 @@
         <div class="section-heading"><span class="section-mark" aria-hidden="true">⇄</span><div><p class="eyebrow">Connect the stack</p><h2 id="stack-title">Let your stack keep it current.</h2></div></div>
         <p class="section-intro">Your tracker is only one piece of the workflow. Floppy can sit beside the media servers, scrobblers, request tools, and automations you already run.</p>
         <div class="stack-grid">
-          <article class="stack-card featured"><p class="card-kicker">Media servers</p><h3>Plex, Jellyfin, Kodi, and Stremio.</h3><p>Bring media-server activity and library context into the same history. Plex and Jellyfin support live events plus backfill; Kodi’s path is webhook-based. Kodi users can get a bit more functionality through Umbrella.</p><div class="chip-row"><span class="chip">Plex</span><span class="chip">Jellyfin</span><span class="chip">Kodi</span><span class="chip">Stremio</span></div><div class="actions"><a class="text-link" href="../../integrations/">Explore integrations ↗</a></div></article>
+          <article class="stack-card featured"><p class="card-kicker">Media servers</p><h3>Plex, Jellyfin, Kodi, and Stremio.</h3><p>Bring media-server activity and library context into the same history. Plex and Jellyfin support live events plus backfill; Kodi’s path is webhook-based. Kodi users can get a bit more functionality through Umbrella.</p><div class="chip-row"><a class="chip" href="../../integrations/plex/">Plex</a><a class="chip" href="../../integrations/jellyfin/">Jellyfin</a><span class="chip">Kodi</span><span class="chip">Stremio</span></div><div class="actions"><a class="text-link" href="../../integrations/">Explore integrations ↗</a></div></article>
           <article class="stack-card"><p class="card-kicker">Automation</p><h3>An API instead of a dead end.</h3><p>Use the documented REST API, API-key or bearer auth, and MCP server for the automations that make a self-hosted library feel like yours.</p><div class="chip-row"><span class="chip">REST API</span><span class="chip">OpenAPI</span><span class="chip">MCP</span></div><div class="actions"><a class="text-link" href="https://github.com/dannyvfilms/Floppy">Explore the repository ↗</a></div></article>
         </div>
       </section>

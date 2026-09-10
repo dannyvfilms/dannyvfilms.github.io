@@ -126,7 +126,8 @@
     .media-band h3 { margin: 0 0 10px; font-size: 1.55rem; letter-spacing: -.04em; }
     .media-band p { max-width: 690px; margin: 0; color: var(--muted); }
     .media-chips { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; max-width: 310px; }
-    .chip { padding: 7px 11px; border: 1px solid var(--line); border-radius: 999px; color: #e9dcff; background: rgba(176, 92, 255, .1); font-size: .86rem; font-weight: 850; }
+    .chip { padding: 7px 11px; border: 1px solid var(--line); border-radius: 999px; color: #e9dcff; background: rgba(176, 92, 255, .1); font-size: .86rem; font-weight: 850; text-decoration: none; }
+    .chip:hover, .chip:focus-visible { border-color: rgba(202, 181, 255, .64); color: var(--text); }
 
     .migration-grid, .stack-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; margin-top: 44px; }
     .honest-card, .stack-card { padding: clamp(24px, 4vw, 34px); border: 1px solid var(--line-soft); border-radius: 23px; background: rgba(18, 16, 49, .72); }
@@ -295,7 +296,7 @@
         <div class="section-heading"><span class="section-mark" aria-hidden="true">⇄</span><div><p class="eyebrow">If your shows live elsewhere</p><h2 id="stack-title">Let playback help keep you current.</h2></div></div>
         <p class="section-intro">If you already watch through a home media server, Floppy can receive playback activity instead of asking you to mark every episode twice.</p>
         <div class="stack-grid">
-          <article class="stack-card featured"><p class="card-kicker">Playback</p><h3>Plex and Jellyfin live tracking.</h3><p>Use webhooks and scheduled backfill to bring playback events and library context into your episode history.</p><div class="chip-row"><span class="chip">Plex</span><span class="chip">Jellyfin</span><span class="chip">Stremio</span></div></article>
+          <article class="stack-card featured"><p class="card-kicker">Playback</p><h3>Plex and Jellyfin live tracking.</h3><p>Use webhooks and scheduled backfill to bring playback events and library context into your episode history.</p><div class="chip-row"><a class="chip" href="../../integrations/plex/">Plex</a><a class="chip" href="../../integrations/jellyfin/">Jellyfin</a><span class="chip">Stremio</span></div></article>
           <article class="stack-card"><p class="card-kicker">When TV is not enough</p><h3>Let the rest of your media life join later.</h3><p>Keep movies and anime close now. Add books, games, music, and podcasts when you want one place for the whole shelf.</p><div class="chip-row"><span class="chip">Movies</span><span class="chip">Anime</span><span class="chip">Books</span><span class="chip">Games</span></div></article>
         </div>
         <div class="actions"><a class="text-link" href="../../integrations/">Explore integrations ↗</a></div>
