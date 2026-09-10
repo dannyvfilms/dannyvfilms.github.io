@@ -27,4 +27,7 @@
   <url>
     <loc>https://dannyvfilms.github.io/floppy/integrations/plex/</loc>
   </url>
+  <url>
+    <loc>https://dannyvfilms.github.io/floppy/integrations/jellyfin/</loc>
+  </url>
 </urlset>
